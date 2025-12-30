@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omgever - AI-gestuurde Ruimtelijke Planning</title>
+    <meta name="description" content="Omgever maakt ruimtelijke regelgeving begrijpelijk. Check direct wat mag op jouw locatie met AI-ondersteuning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .nav-links .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+        }
+
+        .nav-links .btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0fdf4 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            background: var(--white);
+            padding: 1rem;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(145deg, #e2e8f0, #cbd5e1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(37, 99, 235, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(37, 99, 235, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .map-pin {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .map-pin::after {
+            content: '✓';
+            transform: rotate(45deg);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: var(--white);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .badge-ai {
+            top: 10%;
+            right: -20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .badge-check {
+            bottom: 15%;
+            left: -30px;
+            animation: float 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .badge-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .badge-icon.green {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .badge-icon.blue {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--white);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 16px;
+            background: var(--light);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon.blue { background: #dbeafe; }
+        .feature-icon.green { background: #dcfce7; }
+        .feature-icon.purple { background: #f3e8ff; }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* How it Works */
+        .how-it-works {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--light) 0%, var(--white) 100%);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -1.25rem;
+            top: 40px;
+            font-size: 1.5rem;
+            color: var(--gray);
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Target Audience */
+        .audience {
+            padding: 6rem 2rem;
+            background: var(--dark);
+            color: var(--white);
+        }
+
+        .audience .section-header h2 {
+            color: var(--white);
+        }
+
+        .audience .section-header p {
+            color: #94a3b8;
+        }
+
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .audience-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .audience-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-5px);
+        }
+
+        .audience-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .audience-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .audience-card p {
+            color: #94a3b8;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-primary {
+            background: var(--white);
+            color: var(--primary);
+            font-size: 1.125rem;
+            padding: 1rem 2rem;
+        }
+
+        .cta .btn-primary:hover {
+            background: var(--light);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: #94a3b8;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand img {
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-brand span {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .footer-section h4 {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .floating-badge {
+                display: none;
+            }
+
+            .features-grid,
+            .audience-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .step:not(:last-child)::after {
+                display: none;
+            }
+
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .features-grid,
+            .audience-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="omgever.png" alt="Omgever logo">
+                <span class="logo-text">Omgever</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Functionaliteiten</a>
+                <a href="#how-it-works">Hoe het werkt</a>
+                <a href="#voor-wie">Voor wie</a>
+                <a href="#contact" class="btn btn-primary">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Snap direct wat mag op <span>jouw locatie</span></h1>
+                <p>Omgever maakt ruimtelijke regelgeving begrijpelijk. Wijs een locatie aan op de kaart en ontdek binnen seconden wat de regels zijn – met AI-ondersteuning.</p>
+                <div class="hero-buttons">
+                    <a href="#demo" class="btn btn-primary">
+                        🚀 Probeer de demo
+                    </a>
+                    <a href="#how-it-works" class="btn btn-secondary">
+                        Meer informatie
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image">
+                    <div class="map-placeholder">
+                        <div class="map-pin"></div>
+                    </div>
+                </div>
+                <div class="floating-badge badge-ai">
+                    <div class="badge-icon blue">🤖</div>
+                    <div>
+                        <div style="font-size: 0.85rem; color: var(--gray);">AI Analyse</div>
+                        <div>Klaar in 3 sec</div>
+                    </div>
+                </div>
+                <div class="floating-badge badge-check">
+                    <div class="badge-icon green">✓</div>
+                    <div>
+                        <div style="font-size: 0.85rem; color: var(--gray);">Resultaat</div>
+                        <div>Toegestaan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Regelgeving, eindelijk begrijpelijk</h2>
+                <p>Omgever combineert officiële overheidsdata met slimme AI om complexe regels toegankelijk te maken.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon blue">🗺️</div>
+                    <h3>Interactieve kaart</h3>
+                    <p>Teken precies wat je wilt bouwen op de kaart. Automatische uitlijning met kadastrale grenzen en percelen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon green">📋</div>
+                    <h3>Directe regelcheck</h3>
+                    <p>Krijg direct inzicht in alle relevante regels: bestemmingsplannen, omgevingsplannen en meer.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple">🤖</div>
+                    <h3>AI-ondersteuning</h3>
+                    <p>Onze AI analyseert de regelteksten en geeft je een helder antwoord: ja, nee, of het hangt ervan af.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Zo werkt het</h2>
+                <p>In vier simpele stappen van vraag naar antwoord</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Beschrijf je plan</h3>
+                    <p>Vertel wat je wilt bouwen of aanpassen, bijvoorbeeld een schuur of dakkapel.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Wijs de locatie aan</h3>
+                    <p>Zoek je adres en teken de omtrek van je bouwwerk op de kaart.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>AI analyseert</h3>
+                    <p>Omgever haalt automatisch alle relevante regels op en analyseert deze.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Krijg duidelijkheid</h3>
+                    <p>Ontvang een helder rapport met ja/nee antwoord en onderbouwing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Audience -->
+    <section class="audience" id="voor-wie">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Gemaakt voor professionals</h2>
+                <p>Omgever bespaart uren aan uitzoekwerk en geeft zekerheid</p>
+            </div>
+            <div class="audience-grid">
+                <div class="audience-card">
+                    <div class="audience-icon">🏗️</div>
+                    <h3>Architecten</h3>
+                    <p>Check snel de mogelijkheden voor je ontwerp en onderbouw je advies aan klanten.</p>
+                </div>
+                <div class="audience-card">
+                    <div class="audience-icon">🔨</div>
+                    <h3>Aannemers</h3>
+                    <p>Weet direct of een klus vergunningplichtig is en voorkom verrassingen.</p>
+                </div>
+                <div class="audience-card">
+                    <div class="audience-icon">📊</div>
+                    <h3>Adviseurs</h3>
+                    <p>Lever professionele rapporten met verwijzingen naar officiële regelgeving.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="section-container">
+            <h2>Klaar om te beginnen?</h2>
+            <p>Word een van de eerste gebruikers en help ons Omgever te verbeteren. Meld je aan voor early access.</p>
+            <a href="mailto:info@omgever.nl" class="btn btn-primary">
+                ✉️ Vraag early access aan
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-brand">
+                    <img src="omgever.png" alt="Omgever">
+                    <span>Omgever</span>
+                </div>
+                <p>Ruimtelijke regelgeving, eindelijk begrijpelijk. Powered by AI en officiële overheidsdata van PDOK en DSO.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Functionaliteiten</a></li>
+                    <li><a href="#how-it-works">Hoe het werkt</a></li>
+                    <li><a href="#voor-wie">Voor wie</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Bronnen</h4>
+                <ul>
+                    <li><a href="https://www.pdok.nl" target="_blank">PDOK</a></li>
+                    <li><a href="https://omgevingswet.overheid.nl" target="_blank">Omgevingswet</a></li>
+                    <li><a href="https://kadaster.nl" target="_blank">Kadaster</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:info@omgever.nl">info@omgever.nl</a></li>
+                    <li><a href="https://omgever.nl">omgever.nl</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Omgever. Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+</body>
+</html>
