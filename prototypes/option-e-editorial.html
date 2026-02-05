@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omgever - Editorial Prototype</title>
+    <!-- Use a serif font for that "Legal/Official" vibe -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #1e3a5f;
+            --beige: #f9f7f2; /* Warm paper-like background */
+            --white: #ffffff;
+            --gold-accent: #d4a017; /* Replaces cyan for a more "firm" look - wait, let's stick to Omgever cyan but deeper */
+            --cyan-dark: #3b8a9e;
+            
+            --text-main: #2c3e50;
+            --text-light: #596b7d;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--beige);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--navy);
+            margin-top: 0;
+        }
+
+        header {
+            background: var(--white); /* White instead of Navy */
+            border-bottom: 4px solid var(--navy); /* Strong branding line */
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end; /* Align to baseline */
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy);
+            text-decoration: none;
+            line-height: 1;
+        }
+        
+        .brand-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--cyan-dark);
+            margin-top: 8px;
+            display: block;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+            transition: border 0.3s;
+        }
+        
+        nav a:hover {
+            border-color: var(--navy);
+        }
+
+        /* Editorial Hero */
+        .hero {
+            padding: 5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        h1.headline {
+            font-size: 3.5rem;
+            max-width: 800px;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+        }
+
+        .btn-firm {
+            background: var(--navy);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-firm:hover {
+            background: #152a45;
+        }
+
+        /* List Layout for Services - like a table of contents */
+        .services-section {
+            padding: 5rem 0;
+        }
+
+        .service-row {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 2.5rem 0;
+            align-items: baseline;
+        }
+        
+        .service-row:last-child {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .service-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--cyan-dark);
+            width: 80px;
+            flex-shrink: 0;
+            font-style: italic;
+        }
+
+        .service-content {
+            flex: 1;
+        }
+
+        .service-content h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-content p {
+            max-width: 600px;
+            margin-bottom: 0;
+            color: var(--text-light);
+        }
+
+        .service-action {
+            margin-left: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--navy);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        /* Trust Banner */
+        .trust-banner {
+            background: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        .trust-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 1.5rem;
+        }
+
+        @media(max-width: 768px) {
+            .service-row { flex-direction: column; }
+            .service-num { margin-bottom: 1rem; }
+            h1.headline { font-size: 2.5rem; }
+            .header-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            nav { margin-left: -2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-inner">
+        <div>
+            <a href="#" class="brand-name">Omgever</a>
+            <span class="brand-sub">Platform voor omgevingsrecht</span>
+        </div>
+        <nav>
+            <a href="#">Over ons</a>
+            <a href="#">Producten</a>
+            <a href="#">Contact</a>
+            <a href="https://app.omgever.nl">Inloggen</a>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1 class="headline">Juridische zekerheid in een complex landschap.</h1>
+        <p class="lead">Geavanceerde AI-analyse van ruimtelijke producten voor overheden en juridische adviseurs.</p>
+        <a href="https://app.omgever.nl" class="btn-firm">Start uw analyse</a>
+        <span style="margin-left: 20px; font-size: 0.9rem; color: var(--text-light);">Of bekijk de <a href="#" style="color: inherit; text-decoration: underline;">documentatie</a></span>
+    </div>
+</section>
+
+<div class="trust-banner">
+    <div class="container">
+        <div class="trust-title">Vertrouwd door professionals in het omgevingsrecht</div>
+        <!-- Placeholders simply represented by text here for strict HTML feel -->
+        <div style="color: #ccc; font-family: 'Playfair Display'; font-style: italic; display: flex; justify-content: space-around; font-size: 1.2rem;">
+            <span>Gemeente X</span>
+            <span>Adviesbureau Y</span>
+            <span>Provincie Z</span>
+        </div>
+    </div>
+</div>
+
+<section class="services-section">
+    <div class="container">
+        <h4 style="text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; color: var(--text-light); margin-bottom: 3rem;">Onze diensten</h4>
+        
+        <div class="service-row">
+            <div class="service-num">01.</div>
+            <div class="service-content">
+                <h3>Instructieregel Analyse</h3>
+                <p>Een volledige toetsing van uw toelichting aan de instructieregels uit het Besluit kwaliteit leefomgeving en de provinciale verordening.</p>
+            </div>
+            <a href="#" class="service-action">Meer details &rarr;</a>
+        </div>
+
+        <div class="service-row">
+            <div class="service-num">02.</div>
+            <div class="service-content">
+                <h3>Stikstof & Ecologie</h3>
+                <p>Gespecialiseerde modules voor het beoordelen van voortoetsen, soortenonderzoek en stikstofrapportages.</p>
+            </div>
+            <a href="#" class="service-action">Meer details &rarr;</a>
+        </div>
+
+        <div class="service-row">
+            <div class="service-num">03.</div>
+            <div class="service-content">
+                <h3>Geluidonderzoek</h3>
+                <p>Juridische controle op volledigheid en consistentie binnen geluidonderzoeken voor weg- en spoorverkeer.</p>
+            </div>
+            <a href="#" class="service-action">Meer details &rarr;</a>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>
