@@ -436,6 +436,13 @@ a:hover {
     gap: 1.25rem;
 }
 
+@media (min-width: 1025px) {
+    /* Center the last item if it's the only one on the last row (7th item) */
+    .products-grid > *:last-child:nth-child(3n - 2) {
+        grid-column: 2;
+    }
+}
+
 .product-card {
     background: var(--white);
     border-radius: 12px;
