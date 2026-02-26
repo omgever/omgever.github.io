@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Omgever - Vrolijk & Actief</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* VROLIJK & ACTIEF THEME */
+        :root {
+            --brand-yellow: #fbbf24;
+            --brand-blue: #1e3a8a;
+            --brand-pop: #f43f5e; /* Pop pinkish-red */
+            --bg-color: #fffbeb; /* Very light warm yellowy-white */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: #1f2937;
+        }
+
+        /* Bold Header */
+        .site-header {
+            background: white;
+            border-bottom: 3px solid var(--brand-yellow);
+        }
+        
+        .logo {
+            font-weight: 800;
+            color: var(--brand-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Hero - Bold Blocks */
+        .hero {
+            padding: 5rem 1rem;
+            position: relative;
+        }
+
+        .hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            color: var(--brand-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Highlight mark */
+        .highlight {
+            background: var(--brand-yellow);
+            padding: 0 5px;
+            transform: skew(-2deg);
+            display: inline-block;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        /* Visual Element - Card Stack */
+        .hero-visual {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-stack-item {
+            width: 280px;
+            height: 350px;
+            background: white;
+            border: 3px solid var(--brand-blue);
+            border-radius: 12px;
+            position: absolute;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card-stack-item:nth-child(1) { transform: rotate(-5deg) translate(-20px, -10px); z-index: 1; background: #eff6ff; }
+        .card-stack-item:nth-child(2) { transform: rotate(5deg) translate(20px, 10px); z-index: 2; background: #fff; }
+        .card-stack-item:hover { transform: rotate(0deg) scale(1.05); z-index: 10; }
+
+        .btn-primary {
+            background: var(--brand-blue);
+            color: var(--brand-yellow);
+            border: 3px solid var(--brand-blue);
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            box-shadow: 5px 5px 0px var(--brand-yellow);
+            transition: all 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary:active {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0px var(--brand-yellow);
+        }
+
+        /* Ticker Tape */
+        .ticker-tape {
+            background: var(--brand-blue);
+            color: var(--brand-yellow);
+            padding: 1rem;
+            overflow: hidden;
+            white-space: nowrap;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-top: 3px solid var(--brand-yellow);
+            border-bottom: 3px solid var(--brand-yellow);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <span>OMGEVER</span>
+            </a>
+            <nav class="main-nav">
+                <a href="#" style="font-weight: 700; color: var(--brand-blue);">Producten</a>
+                <a href="#" style="font-weight: 700; color: var(--brand-blue);">Over ons</a>
+            </nav>
+            <div class="header-actions">
+                <a href="#" class="btn-primary" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">Starten!</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="ticker-tape">
+        GROOTS NIEUWS • WIJ GAAN DE MARKT OPENBREKEN • SUPERLAGE TARIEVEN • START VANDAAG • GROOTS NIEUWS •
+    </div>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <h1>Wij zijn de <br><span class="highlight">Robin Hood</span> van de RO.</h1>
+                <p>Topkwaliteit analyses, maar dan voor een fractie van de prijs. Omdat wij vinden dat goede tools voor iedereen beschikbaar moeten zijn.</p>
+                
+                <a href="#" class="btn-primary">Knal die analyse erin →</a>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="card-stack-item">
+                    <h3 style="font-weight:800; font-size:2rem; color:var(--brand-blue);">€ 15,-</h3>
+                    <p>Zo weinig?</p>
+                    <small>Ja echt.</small>
+                </div>
+                <div class="card-stack-item">
+                    <h3 style="font-weight:800; font-size:1.5rem; color:var(--brand-pop);">Supersnel 🚀</h3>
+                    <p>Geen weken wachten</p>
+                    <p>Direct resultaat</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Blocks -->
+    <section class="content-section" style="background: white; padding: 4rem 1rem;">
+        <div class="content-inner" style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: 2.5rem; color: var(--brand-blue); margin-bottom: 1rem;">Kennisbestuiving? Graag!</h2>
+            <p style="font-size: 1.2rem; line-height: 1.8;">Ons doel is niet om rijk te worden. Ons doel is zorgen dat heel ruimtelijk Nederland toegang heeft tot de beste tools. Of je nu gemeente, klein bureau of zzp'er bent.</p>
+            
+            <div style="margin-top: 3rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <div style="background: var(--bg-color); padding: 1.5rem; border-radius: 8px; border: 2px solid var(--brand-yellow); width: 220px;">
+                    <strong>🌱 Voor Groentjes</strong>
+                    <p>Simpel in gebruik</p>
+                </div>
+                <div style="background: var(--bg-color); padding: 1.5rem; border-radius: 8px; border: 2px solid var(--brand-yellow); width: 220px;">
+                    <strong>🦁 Voor Experts</strong>
+                    <p>Diepgaande checks</p>
+                </div>
+                <div style="background: var(--bg-color); padding: 1.5rem; border-radius: 8px; border: 2px solid var(--brand-yellow); width: 220px;">
+                    <strong>💰 Voor Iedereen</strong>
+                    <p>Bodemprijzen</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

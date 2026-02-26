@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dex - Analysis Flow Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            font-family: system-ui, sans-serif;
+        }
+        
+        .background {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .webapp-mockup {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: 60px 1fr;
+        }
+        
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            color: #1e3a5f;
+        }
+        
+        .logo-icon { width: 40px; height: 40px; }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            color: #64748b;
+        }
+        
+        .download-btn {
+            display: none;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        .download-btn.visible {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .download-btn.pressed {
+            animation: none;
+            transform: scale(0.95);
+            background: #059669;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .sidebar-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        
+        .file-list {
+            min-height: 60px;
+        }
+        
+        .file-item {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #1e3a5f;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .file-item.visible {
+            display: flex;
+        }
+        
+        .file-icon {
+            font-size: 16px;
+        }
+        
+        .results-section {
+            transition: all 0.3s ease;
+        }
+        
+        .results-section.highlight {
+            background: #e8f7fb;
+            border: 2px solid #7dd3e8;
+        }
+        
+        /* Drop zone */
+        .drop-zone {
+            margin-top: auto;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #7dd3e8;
+            background: #e8f7fb;
+            color: #1e3a5f;
+        }
+        
+        .drop-zone-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        /* Main content */
+        .main-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .analyze-btn {
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        .analyze-btn.visible {
+            display: block;
+        }
+        
+        .analyze-btn.pressed {
+            background: #2d5a8f;
+            transform: scale(0.98);
+        }
+        
+        .analyze-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+        
+        /* Loading spinner */
+        .loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .loading.visible {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #7dd3e8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        /* Draggable PDF */
+        .draggable-pdf {
+            position: fixed;
+            width: 80px;
+            height: 100px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 500;
+            font-size: 11px;
+            color: #1e3a5f;
+            text-align: center;
+            padding: 8px;
+        }
+        
+        .draggable-pdf .pdf-icon {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        
+        /* Coffee cup */
+        .coffee-cup {
+            position: fixed;
+            width: 40px;
+            height: 50px;
+            z-index: 600;
+            display: none;
+        }
+        
+        .coffee-cup.visible {
+            display: block;
+        }
+        
+        /* DEX */
+        .stick-figure {
+            position: fixed;
+            width: 100px;
+            height: 280px;
+            z-index: 1000;
+        }
+        
+        /* Replay button */
+        .replay-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 1001;
+        }
+        
+        .replay-btn:hover {
+            background: #2d5a8f;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="webapp-mockup">
+            <div class="header">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="18" fill="none" stroke="#7dd3e8" stroke-width="2"/>
+                        <circle cx="20" cy="20" r="12" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+                        <circle cx="20" cy="20" r="4" fill="#1e3a5f"/>
+                        <line x1="20" y1="2" x2="20" y2="8" stroke="#7dd3e8" stroke-width="2"/>
+                        <line x1="20" y1="32" x2="20" y2="38" stroke="#7dd3e8" stroke-width="2"/>
+                        <line x1="2" y1="20" x2="8" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                        <line x1="32" y1="20" x2="38" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                    </svg>
+                    omgever
+                </div>
+                <div class="header-icons">
+                    <button class="download-btn" id="downloadBtn">
+                        ⬇️ Download resultaten
+                    </button>
+                    <span>⚙️</span>
+                    <span>✉️</span>
+                    <span>👤</span>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3>Bronbestanden</h3>
+                    <div class="file-list" id="sourceFiles">
+                        <div class="file-item" id="uploadedFile">
+                            <span class="file-icon">📄</span>
+                            <span>stikstof_onderzoek.pdf</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section results-section" id="resultsSection">
+                    <h3>Resultaten</h3>
+                    <div class="file-list" id="resultFiles">
+                        <div class="file-item" id="result1">
+                            <span class="file-icon">📋</span>
+                            <span>Onderzoeksverslag</span>
+                        </div>
+                        <div class="file-item" id="result2">
+                            <span class="file-icon">✅</span>
+                            <span>Checklist</span>
+                        </div>
+                        <div class="file-item" id="result3">
+                            <span class="file-icon">📝</span>
+                            <span>Samenvatting en aanbevelingen</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-icon">📁</div>
+                    Sleep bestanden hierheen
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <button class="analyze-btn" id="analyzeBtn">Analyseren</button>
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Bezig met analyseren...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Draggable PDF -->
+    <div class="draggable-pdf" id="draggablePdf">
+        <span class="pdf-icon">📄</span>
+        stikstof_onderzoek.pdf
+    </div>
+    
+    <!-- Coffee cup SVG -->
+    <svg class="coffee-cup" id="coffeeCup" viewBox="0 0 40 50">
+        <path d="M 5 15 L 5 40 Q 5 45 10 45 L 25 45 Q 30 45 30 40 L 30 15 Z" fill="#8B4513" stroke="#5D3A1A" stroke-width="2"/>
+        <path d="M 30 20 Q 38 20 38 28 Q 38 36 30 36" fill="none" stroke="#5D3A1A" stroke-width="2"/>
+        <ellipse cx="17.5" cy="15" rx="12.5" ry="3" fill="#D2691E"/>
+        <!-- Steam -->
+        <path class="steam" d="M 12 8 Q 10 4 12 0" fill="none" stroke="#ccc" stroke-width="1.5" stroke-linecap="round">
+            <animate attributeName="d" values="M 12 8 Q 10 4 12 0;M 12 8 Q 14 4 12 0;M 12 8 Q 10 4 12 0" dur="1s" repeatCount="indefinite"/>
+        </path>
+        <path class="steam" d="M 20 8 Q 22 4 20 0" fill="none" stroke="#ccc" stroke-width="1.5" stroke-linecap="round">
+            <animate attributeName="d" values="M 20 8 Q 22 4 20 0;M 20 8 Q 18 4 20 0;M 20 8 Q 22 4 20 0" dur="1.2s" repeatCount="indefinite"/>
+        </path>
+    </svg>
+    
+    <!-- DEX -->
+    <svg class="stick-figure" id="dex" viewBox="0 0 100 280">
+        <!-- Hair tuft -->
+        <path d="M 48 5 Q 52 -2 56 5 Q 60 0 60 8" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Head -->
+        <circle cx="50" cy="35" r="25" fill="none" stroke="#1e3a5f" stroke-width="3.5"/>
+        
+        <!-- Open eyes -->
+        <ellipse id="leftEye" cx="42" cy="32" rx="3" ry="7" fill="#1e3a5f"/>
+        <ellipse id="rightEye" cx="58" cy="32" rx="3" ry="7" fill="#1e3a5f"/>
+        
+        <!-- Rosy cheeks -->
+        <circle cx="32" cy="40" r="4" fill="#f8d7da" opacity="0.6"/>
+        <circle cx="68" cy="40" r="4" fill="#f8d7da" opacity="0.6"/>
+        
+        <!-- Small cute smile -->
+        <path id="mouth" d="M 44 47 Q 50 52 56 47" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Neck -->
+        <line x1="50" y1="60" x2="50" y2="70" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Body -->
+        <line x1="50" y1="70" x2="50" y2="160" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Left arm -->
+        <path id="leftArm" d="M 50 78 Q 20 93 15 153" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Right arm -->
+        <path id="rightArm" d="M 50 78 Q 80 93 85 153" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Left leg -->
+        <path d="M 50 160 Q 40 210 30 265" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Right leg -->
+        <path d="M 50 160 Q 60 210 70 265" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    
+    <button class="replay-btn" onclick="replayAnimation()">Replay</button>
+    
+    <script>
+        const dex = document.getElementById('dex');
+        const leftArm = document.getElementById('leftArm');
+        const rightArm = document.getElementById('rightArm');
+        const leftEye = document.getElementById('leftEye');
+        const rightEye = document.getElementById('rightEye');
+        const mouth = document.getElementById('mouth');
+        
+        const draggablePdf = document.getElementById('draggablePdf');
+        const dropZone = document.getElementById('dropZone');
+        const uploadedFile = document.getElementById('uploadedFile');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const loading = document.getElementById('loading');
+        const resultsSection = document.getElementById('resultsSection');
+        const result1 = document.getElementById('result1');
+        const result2 = document.getElementById('result2');
+        const result3 = document.getElementById('result3');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const coffeeCup = document.getElementById('coffeeCup');
+        
+        // Arm positions
+        const armDownLeft = "M 50 78 Q 20 93 15 153";
+        const armDownRight = "M 50 78 Q 80 93 85 153";
+        const armHoldPdf = "M 50 78 Q 70 60 90 55";          // Right arm holding PDF
+        const armPointRight = "M 50 78 Q 75 55 95 50";       // Pointing right
+        const armPointLeft = "M 50 78 Q 25 55 5 50";         // Pointing left
+        const armHoldCup = "M 50 78 Q 65 70 70 60";          // Holding coffee cup
+        const armSip = "M 50 78 Q 55 50 50 35";              // Bringing cup to mouth
+        
+        let animationId;
+        let startTime;
+        let phase = 'start';
+        
+        // Positions
+        let pdfStartX, pdfStartY;
+        let dropZonePos, analyzeBtnPos, downloadBtnPos;
+        
+        // Dex dimensions
+        const DEX_WIDTH = 100;
+        const DEX_HEIGHT = 280;
+        
+        function clampDexPosition(x, y) {
+            // Keep Dex fully on screen
+            const maxX = window.innerWidth - DEX_WIDTH - 10;
+            const maxY = window.innerHeight - DEX_HEIGHT - 10;
+            return {
+                x: Math.max(10, Math.min(x, maxX)),
+                y: Math.max(10, Math.min(y, maxY))
+            };
+        }
+        
+        function setDexPosition(x, y) {
+            const clamped = clampDexPosition(x, y);
+            dex.style.left = clamped.x + 'px';
+            dex.style.top = clamped.y + 'px';
+        }
+        
+        function calculatePositions() {
+            const dropRect = dropZone.getBoundingClientRect();
+            dropZonePos = { x: dropRect.left + dropRect.width/2, y: dropRect.top + dropRect.height/2 };
+            
+            const analyzeRect = analyzeBtn.getBoundingClientRect();
+            analyzeBtnPos = { x: analyzeRect.left, y: analyzeRect.top };
+            
+            // Start PDF in main content area (not at edge)
+            pdfStartX = Math.min(window.innerWidth - 150, window.innerWidth - 200);
+            pdfStartY = Math.min(window.innerHeight - 200, window.innerHeight - 250);
+        }
+        
+        function lerp(a, b, t) {
+            return a + (b - a) * t;
+        }
+        
+        function easeInOut(t) {
+            return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+        
+        function interpolatePath(pathA, pathB, t) {
+            const parseQ = (path) => {
+                const match = path.match(/M\s*([\d.-]+)\s+([\d.-]+)\s+Q\s*([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)/);
+                return {
+                    mx: parseFloat(match[1]),
+                    my: parseFloat(match[2]),
+                    cx: parseFloat(match[3]),
+                    cy: parseFloat(match[4]),
+                    ex: parseFloat(match[5]),
+                    ey: parseFloat(match[6])
+                };
+            };
+            
+            const a = parseQ(pathA);
+            const b = parseQ(pathB);
+            
+            return `M ${lerp(a.mx, b.mx, t)} ${lerp(a.my, b.my, t)} Q ${lerp(a.cx, b.cx, t)} ${lerp(a.cy, b.cy, t)} ${lerp(a.ex, b.ex, t)} ${lerp(a.ey, b.ey, t)}`;
+        }
+        
+        const phases = {
+            'start': { duration: 500, next: 'pickup-pdf' },
+            'pickup-pdf': { duration: 800, next: 'drag-pdf' },
+            'drag-pdf': { duration: 1500, next: 'drop-pdf' },
+            'drop-pdf': { duration: 600, next: 'move-to-analyze' },
+            'move-to-analyze': { duration: 1000, next: 'press-analyze' },
+            'press-analyze': { duration: 1200, next: 'move-to-center' },
+            'move-to-center': { duration: 800, next: 'get-coffee' },
+            'get-coffee': { duration: 600, next: 'drinking' },
+            'drinking': { duration: 5000, next: 'results-appear' },
+            'results-appear': { duration: 1500, next: 'move-to-download' },
+            'move-to-download': { duration: 1000, next: 'press-download' },
+            'press-download': { duration: 500, next: 'done' }
+        };
+        
+        function animate(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const phaseInfo = phases[phase];
+            const t = Math.min(elapsed / phaseInfo.duration, 1);
+            const eased = easeInOut(t);
+            
+            if (phase === 'start') {
+                // Dex starts bottom right, PDF visible
+                setDexPosition(pdfStartX - 60, pdfStartY - 130);
+                draggablePdf.style.left = pdfStartX + 'px';
+                draggablePdf.style.top = pdfStartY + 'px';
+                draggablePdf.style.display = 'flex';
+            }
+            else if (phase === 'pickup-pdf') {
+                // Raise right arm to grab PDF
+                rightArm.setAttribute('d', interpolatePath(armDownRight, armHoldPdf, eased));
+            }
+            else if (phase === 'drag-pdf') {
+                // Move Dex and PDF toward drop zone
+                const startDexX = pdfStartX - 60;
+                const startDexY = pdfStartY - 130;
+                const endDexX = dropZonePos.x + 100;
+                const endDexY = dropZonePos.y - 150;
+                
+                setDexPosition(lerp(startDexX, endDexX, eased), lerp(startDexY, endDexY, eased));
+                
+                // PDF follows hand
+                draggablePdf.style.left = lerp(pdfStartX, dropZonePos.x - 40, eased) + 'px';
+                draggablePdf.style.top = lerp(pdfStartY, dropZonePos.y - 50, eased) + 'px';
+                
+                if (t > 0.5) {
+                    dropZone.classList.add('active');
+                }
+            }
+            else if (phase === 'drop-pdf') {
+                // Drop PDF, lower arm
+                rightArm.setAttribute('d', interpolatePath(armHoldPdf, armDownRight, eased));
+                
+                // PDF fades out, file appears in list
+                draggablePdf.style.opacity = 1 - eased;
+                if (t > 0.3) {
+                    uploadedFile.classList.add('visible');
+                    dropZone.classList.remove('active');
+                }
+                if (t >= 1) {
+                    draggablePdf.style.display = 'none';
+                    analyzeBtn.classList.add('visible');
+                }
+            }
+            else if (phase === 'move-to-analyze') {
+                // Move to analyze button
+                const startX = dropZonePos.x + 100;
+                const startY = dropZonePos.y - 150;
+                const endX = analyzeBtnPos.x - 110;
+                const endY = analyzeBtnPos.y - 50;
+                
+                setDexPosition(lerp(startX, endX, eased), lerp(startY, endY, eased));
+            }
+            else if (phase === 'press-analyze') {
+                // Raise arm and press - stay longer
+                if (t < 0.4) {
+                    rightArm.setAttribute('d', interpolatePath(armDownRight, armPointRight, t / 0.4));
+                } else {
+                    rightArm.setAttribute('d', armPointRight);
+                }
+                if (t > 0.4) {
+                    analyzeBtn.classList.add('pressed');
+                }
+                if (t > 0.7) {
+                    analyzeBtn.classList.remove('visible');
+                    analyzeBtn.classList.remove('pressed');
+                    loading.classList.add('visible');
+                }
+                if (t >= 1) {
+                    rightArm.setAttribute('d', armDownRight);
+                }
+            }
+            else if (phase === 'move-to-center') {
+                // Move Dex to center of screen next to loading spinner
+                const loadingRect = loading.getBoundingClientRect();
+                const startX = parseFloat(dex.style.left);
+                const startY = parseFloat(dex.style.top);
+                const endX = loadingRect.left - 120;
+                const endY = loadingRect.top - 80;
+                
+                if (t === 0) {
+                    dex.dataset.centerStartX = startX;
+                    dex.dataset.centerStartY = startY;
+                }
+                
+                setDexPosition(
+                    lerp(parseFloat(dex.dataset.centerStartX) || startX, endX, eased),
+                    lerp(parseFloat(dex.dataset.centerStartY) || startY, endY, eased)
+                );
+            }
+            else if (phase === 'get-coffee') {
+                // Raise arm to hold coffee cup
+                rightArm.setAttribute('d', interpolatePath(armDownRight, armHoldCup, eased));
+                coffeeCup.classList.add('visible');
+                
+                // Position cup near hand
+                const dexRect = dex.getBoundingClientRect();
+                coffeeCup.style.left = (dexRect.left + 65) + 'px';
+                coffeeCup.style.top = (dexRect.top + 50) + 'px';
+            }
+            else if (phase === 'drinking') {
+                // Sip coffee animation - arm goes up and down
+                const sipCycle = (elapsed % 1500) / 1500;
+                const sipT = Math.sin(sipCycle * Math.PI);
+                
+                rightArm.setAttribute('d', interpolatePath(armHoldCup, armSip, sipT));
+                
+                // Move cup with arm
+                const dexRect = dex.getBoundingClientRect();
+                const cupX = lerp(dexRect.left + 65, dexRect.left + 40, sipT);
+                const cupY = lerp(dexRect.top + 50, dexRect.top + 10, sipT);
+                coffeeCup.style.left = cupX + 'px';
+                coffeeCup.style.top = cupY + 'px';
+                
+                // Close eyes when sipping
+                if (sipT > 0.7) {
+                    leftEye.setAttribute('ry', '1');
+                    rightEye.setAttribute('ry', '1');
+                    mouth.setAttribute('d', 'M 44 47 Q 50 50 56 47'); // smaller smile
+                } else {
+                    leftEye.setAttribute('ry', '7');
+                    rightEye.setAttribute('ry', '7');
+                    mouth.setAttribute('d', 'M 44 47 Q 50 52 56 47');
+                }
+            }
+            else if (phase === 'results-appear') {
+                // Hide loading, show results
+                if (t < 0.1) {
+                    loading.classList.remove('visible');
+                    coffeeCup.classList.remove('visible');
+                    rightArm.setAttribute('d', armDownRight);
+                    leftEye.setAttribute('ry', '7');
+                    rightEye.setAttribute('ry', '7');
+                }
+                
+                // Results appear one by one
+                if (t > 0.2) resultsSection.classList.add('highlight');
+                if (t > 0.3) result1.classList.add('visible');
+                if (t > 0.5) result2.classList.add('visible');
+                if (t > 0.7) result3.classList.add('visible');
+                if (t > 0.8) downloadBtn.classList.add('visible');
+            }
+            else if (phase === 'move-to-download') {
+                // Move to download button
+                const downloadRect = downloadBtn.getBoundingClientRect();
+                const startX = parseFloat(dex.style.left);
+                const startY = parseFloat(dex.style.top);
+                const endX = downloadRect.left - 110;
+                const endY = downloadRect.top + 20;
+                
+                if (t === 0) {
+                    dex.dataset.startX = startX;
+                    dex.dataset.startY = startY;
+                }
+                
+                setDexPosition(lerp(parseFloat(dex.dataset.startX) || startX, endX, eased), lerp(parseFloat(dex.dataset.startY) || startY, endY, eased));
+            }
+            else if (phase === 'press-download') {
+                rightArm.setAttribute('d', interpolatePath(armDownRight, armPointRight, eased));
+                if (t > 0.5) {
+                    downloadBtn.classList.add('pressed');
+                }
+            }
+            
+            // Transition to next phase
+            if (t >= 1 && phaseInfo.next !== 'done') {
+                phase = phaseInfo.next;
+                startTime = timestamp;
+            }
+            
+            if (phase !== 'done' || t < 1) {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+        
+        function resetAll() {
+            // Reset Dex
+            leftArm.setAttribute('d', armDownLeft);
+            rightArm.setAttribute('d', armDownRight);
+            leftEye.setAttribute('ry', '7');
+            rightEye.setAttribute('ry', '7');
+            mouth.setAttribute('d', 'M 44 47 Q 50 52 56 47');
+            
+            // Reset UI
+            draggablePdf.style.display = 'flex';
+            draggablePdf.style.opacity = 1;
+            dropZone.classList.remove('active');
+            uploadedFile.classList.remove('visible');
+            analyzeBtn.classList.remove('visible', 'pressed');
+            loading.classList.remove('visible');
+            resultsSection.classList.remove('highlight');
+            result1.classList.remove('visible');
+            result2.classList.remove('visible');
+            result3.classList.remove('visible');
+            downloadBtn.classList.remove('visible', 'pressed');
+            coffeeCup.classList.remove('visible');
+        }
+        
+        function startAnimation() {
+            calculatePositions();
+            resetAll();
+            
+            phase = 'start';
+            startTime = null;
+            
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        function replayAnimation() {
+            if (animationId) cancelAnimationFrame(animationId);
+            startAnimation();
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(startAnimation, 500);
+        });
+        
+        window.addEventListener('resize', calculatePositions);
+    </script>
+</body>
+</html>

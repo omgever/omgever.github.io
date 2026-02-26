@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dex - Complete Tutorial Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            font-family: system-ui, sans-serif;
+        }
+        
+        /* SCREENS */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* SHARED STYLES */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            color: #1e3a5f;
+        }
+        
+        .logo-icon { width: 40px; height: 40px; }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            color: #64748b;
+        }
+        
+        .main-content {
+            max-width: 700px;
+            margin: 40px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-family: Georgia, serif;
+            font-size: 42px;
+            font-weight: normal;
+            color: #1e3a5f;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+        
+        .btn-primary {
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 30px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary.pressed {
+            background: #2d5a8f;
+            transform: scale(0.98);
+        }
+        
+        /* SCREEN 1: Welcome */
+        .new-project {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .new-project.pressed {
+            border-color: #7dd3e8;
+            background: #e8f7fb;
+            transform: scale(0.98);
+        }
+        
+        .plus-icon {
+            width: 40px;
+            height: 40px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 24px;
+        }
+        
+        .new-project-text { text-align: left; }
+        .new-project-text strong { display: block; color: #1e3a5f; }
+        .new-project-text span { color: #94a3b8; font-size: 14px; }
+        
+        .search-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .search-box span { color: #94a3b8; }
+        
+        .section-label {
+            text-align: left;
+            color: #94a3b8;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .project-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        
+        .project-item strong { display: block; color: #1e3a5f; }
+        .project-item span { color: #94a3b8; font-size: 14px; }
+        .arrow { color: #cbd5e1; font-size: 20px; }
+        
+        /* SCREEN 2: Choose Advisor */
+        .advisors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .advisor-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .advisor-card.pressed {
+            border-color: #7dd3e8;
+            background: #e8f7fb;
+            transform: scale(0.98);
+        }
+        
+        .advisor-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 24px;
+        }
+        
+        .advisor-icon.green { background: #e6f7ed; }
+        .advisor-icon.blue { background: #e8f4fc; }
+        .advisor-icon.purple { background: #f3e8ff; }
+        .advisor-icon.orange { background: #fff4e6; }
+        
+        .advisor-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 8px;
+        }
+        
+        .advisor-card p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+        
+        /* SCREEN 3: Project Name */
+        .selected-advisor {
+            background: white;
+            border: 1px solid #7dd3e8;
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .selected-advisor .advisor-icon {
+            margin: 0;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .advisor-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 2px;
+        }
+        
+        .advisor-info p {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+        
+        .form-group {
+            text-align: left;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #7dd3e8;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #1e3a5f;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .input-field.typing {
+            border-color: #1e3a5f;
+            box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #64748b;
+            font-size: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        /* SCREEN 4: Analysis */
+        .analysis-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: calc(100vh - 60px);
+        }
+        
+        .sidebar {
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .sidebar-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        
+        .file-list {
+            min-height: 40px;
+        }
+        
+        .file-item {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #1e3a5f;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .file-item.visible {
+            display: flex;
+        }
+        
+        .results-section.highlight {
+            background: #e8f7fb;
+            border: 2px solid #7dd3e8;
+        }
+        
+        .drop-zone {
+            margin-top: auto;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #7dd3e8;
+            background: #e8f7fb;
+            color: #1e3a5f;
+        }
+        
+        .drop-zone-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .analysis-main {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .analyze-btn {
+            display: none;
+        }
+        
+        .analyze-btn.visible {
+            display: block;
+        }
+        
+        .loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .loading.visible {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #7dd3e8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .download-btn {
+            display: none;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        .download-btn.visible {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .download-btn.pressed {
+            animation: none;
+            transform: scale(0.95);
+            background: #059669;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        }
+        
+        /* Draggable PDF */
+        .draggable-pdf {
+            position: fixed;
+            width: 80px;
+            height: 100px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 500;
+            font-size: 11px;
+            color: #1e3a5f;
+            text-align: center;
+            padding: 8px;
+        }
+        
+        .draggable-pdf .pdf-icon {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        
+        /* Coffee cup */
+        .coffee-cup {
+            position: fixed;
+            width: 40px;
+            height: 50px;
+            z-index: 600;
+            display: none;
+        }
+        
+        .coffee-cup.visible {
+            display: block;
+        }
+        
+        /* DEX */
+        .stick-figure {
+            position: fixed;
+            width: 100px;
+            height: 280px;
+            z-index: 1000;
+        }
+        
+        /* Replay button */
+        .replay-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 1001;
+        }
+        
+        .replay-btn:hover {
+            background: #2d5a8f;
+        }
+        
+        /* Progress indicator */
+        .progress {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 1002;
+        }
+        
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            transition: background 0.3s ease;
+        }
+        
+        .progress-dot.active {
+            background: #7dd3e8;
+        }
+        
+        .progress-dot.done {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress indicator -->
+    <div class="progress">
+        <div class="progress-dot active" id="dot1"></div>
+        <div class="progress-dot" id="dot2"></div>
+        <div class="progress-dot" id="dot3"></div>
+        <div class="progress-dot" id="dot4"></div>
+    </div>
+
+    <!-- SCREEN 1: Welcome -->
+    <div class="screen active" id="screen1">
+        <div class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="#7dd3e8" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="12" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="4" fill="#1e3a5f"/>
+                    <line x1="20" y1="2" x2="20" y2="8" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="20" y1="32" x2="20" y2="38" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="2" y1="20" x2="8" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="32" y1="20" x2="38" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                </svg>
+                omgever
+            </div>
+            <div class="header-icons">
+                <span>⚙️</span>
+                <span>✉️</span>
+                <span>👤</span>
+            </div>
+        </div>
+        <div class="main-content">
+            <h1>Welkom</h1>
+            <p class="subtitle">Kies een project om te beginnen</p>
+            
+            <div class="new-project" id="newProjectBtn">
+                <div class="plus-icon">+</div>
+                <div class="new-project-text">
+                    <strong>Nieuw project starten</strong>
+                    <span>Kies een projecttype</span>
+                </div>
+            </div>
+            
+            <div class="search-box">
+                <span>🔍</span>
+                <span>Zoek in projecten...</span>
+            </div>
+            
+            <div class="section-label">GISTEREN</div>
+            
+            <div class="project-item">
+                <div>
+                    <strong>test 7 zienswijzen</strong>
+                    <span>Adviseur zienswijzen beoordelen · Laatst bewerkt: gisteren</span>
+                </div>
+                <span class="arrow">›</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: Choose Advisor -->
+    <div class="screen" id="screen2">
+        <div class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="#7dd3e8" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="12" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="4" fill="#1e3a5f"/>
+                    <line x1="20" y1="2" x2="20" y2="8" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="20" y1="32" x2="20" y2="38" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="2" y1="20" x2="8" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="32" y1="20" x2="38" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                </svg>
+                omgever
+            </div>
+            <div class="header-icons">
+                <span>⚙️</span>
+                <span>✉️</span>
+                <span>👤</span>
+            </div>
+        </div>
+        <div class="main-content" style="max-width: 900px;">
+            <h1>Kies een adviseur</h1>
+            <p class="subtitle">Selecteer het type adviseur voor je project</p>
+            
+            <div class="advisors-grid">
+                <div class="advisor-card">
+                    <div class="advisor-icon green">🌿</div>
+                    <h3>Advies soortenonderzoek</h3>
+                    <p>Juridische beoordeling van ecologische onderzoeken</p>
+                </div>
+                
+                <div class="advisor-card">
+                    <div class="advisor-icon blue">🔊</div>
+                    <h3>Advies akoestisch onderzoek</h3>
+                    <p>Juridische beoordeling van akoestische onderzoeken</p>
+                </div>
+                
+                <div class="advisor-card">
+                    <div class="advisor-icon purple">🅿️</div>
+                    <h3>Adviseur parkeren</h3>
+                    <p>Beoordeling van parkeeronderzoeken</p>
+                </div>
+                
+                <div class="advisor-card" id="targetCard">
+                    <div class="advisor-icon orange">🌱</div>
+                    <h3>Adviseur stikstof onderzoeken - eenvoudig</h3>
+                    <p>Analyse van eenvoudige stikstofonderzoeken</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: Project Name -->
+    <div class="screen" id="screen3">
+        <div class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="#7dd3e8" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="12" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="4" fill="#1e3a5f"/>
+                    <line x1="20" y1="2" x2="20" y2="8" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="20" y1="32" x2="20" y2="38" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="2" y1="20" x2="8" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="32" y1="20" x2="38" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                </svg>
+                omgever
+            </div>
+            <div class="header-icons">
+                <span>⚙️</span>
+                <span>✉️</span>
+                <span>👤</span>
+            </div>
+        </div>
+        <div class="main-content">
+            <h1>Geef je project een naam</h1>
+            <p class="subtitle">Kies een herkenbare naam voor je project</p>
+            
+            <div class="selected-advisor">
+                <div class="advisor-icon orange">🌱</div>
+                <div class="advisor-info">
+                    <h3>Adviseur stikstof onderzoeken - eenvoudig</h3>
+                    <p>Deze adviseur dient voor het analyseren van eenvoudig...</p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Projectnaam</label>
+                <input type="text" class="input-field" id="projectInput" value="" readonly>
+            </div>
+            
+            <div class="buttons">
+                <button class="btn-back">← Terug</button>
+                <button class="btn-primary" id="createBtn">Project aanmaken</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: Analysis -->
+    <div class="screen" id="screen4">
+        <div class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="#7dd3e8" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="12" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="4" fill="#1e3a5f"/>
+                    <line x1="20" y1="2" x2="20" y2="8" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="20" y1="32" x2="20" y2="38" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="2" y1="20" x2="8" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                    <line x1="32" y1="20" x2="38" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                </svg>
+                omgever
+            </div>
+            <div class="header-icons">
+                <button class="download-btn" id="downloadBtn">⬇️ Download</button>
+                <span>⚙️</span>
+                <span>✉️</span>
+                <span>👤</span>
+            </div>
+        </div>
+        <div class="analysis-layout">
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3>Bronbestanden</h3>
+                    <div class="file-list">
+                        <div class="file-item" id="uploadedFile">
+                            <span>📄</span>
+                            <span>stikstof_onderzoek.pdf</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section results-section" id="resultsSection">
+                    <h3>Resultaten</h3>
+                    <div class="file-list">
+                        <div class="file-item" id="result1">
+                            <span>📋</span>
+                            <span>Onderzoeksverslag</span>
+                        </div>
+                        <div class="file-item" id="result2">
+                            <span>✅</span>
+                            <span>Checklist</span>
+                        </div>
+                        <div class="file-item" id="result3">
+                            <span>📝</span>
+                            <span>Samenvatting</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-icon">📁</div>
+                    Sleep bestanden hierheen
+                </div>
+            </div>
+            
+            <div class="analysis-main">
+                <button class="btn-primary analyze-btn" id="analyzeBtn">Analyseren</button>
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Bezig met analyseren...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Draggable PDF -->
+    <div class="draggable-pdf" id="draggablePdf">
+        <span class="pdf-icon">📄</span>
+        stikstof_onderzoek.pdf
+    </div>
+    
+    <!-- Coffee cup -->
+    <svg class="coffee-cup" id="coffeeCup" viewBox="0 0 40 50">
+        <path d="M 5 15 L 5 40 Q 5 45 10 45 L 25 45 Q 30 45 30 40 L 30 15 Z" fill="#8B4513" stroke="#5D3A1A" stroke-width="2"/>
+        <path d="M 30 20 Q 38 20 38 28 Q 38 36 30 36" fill="none" stroke="#5D3A1A" stroke-width="2"/>
+        <ellipse cx="17.5" cy="15" rx="12.5" ry="3" fill="#D2691E"/>
+        <path d="M 12 8 Q 10 4 12 0" fill="none" stroke="#ccc" stroke-width="1.5" stroke-linecap="round">
+            <animate attributeName="d" values="M 12 8 Q 10 4 12 0;M 12 8 Q 14 4 12 0;M 12 8 Q 10 4 12 0" dur="1s" repeatCount="indefinite"/>
+        </path>
+        <path d="M 20 8 Q 22 4 20 0" fill="none" stroke="#ccc" stroke-width="1.5" stroke-linecap="round">
+            <animate attributeName="d" values="M 20 8 Q 22 4 20 0;M 20 8 Q 18 4 20 0;M 20 8 Q 22 4 20 0" dur="1.2s" repeatCount="indefinite"/>
+        </path>
+    </svg>
+
+    <!-- DEX -->
+    <svg class="stick-figure" id="dex" viewBox="0 0 100 280">
+        <path d="M 48 5 Q 52 -2 56 5 Q 60 0 60 8" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="50" cy="35" r="25" fill="none" stroke="#1e3a5f" stroke-width="3.5"/>
+        <ellipse id="leftEye" cx="42" cy="32" rx="3" ry="7" fill="#1e3a5f"/>
+        <ellipse id="rightEye" cx="58" cy="32" rx="3" ry="7" fill="#1e3a5f"/>
+        <circle cx="32" cy="40" r="4" fill="#f8d7da" opacity="0.6"/>
+        <circle cx="68" cy="40" r="4" fill="#f8d7da" opacity="0.6"/>
+        <path id="mouth" d="M 44 47 Q 50 52 56 47" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        <line x1="50" y1="60" x2="50" y2="70" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        <line x1="50" y1="70" x2="50" y2="160" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        <path id="leftArm" d="M 50 78 Q 20 93 15 153" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        <path id="rightArm" d="M 50 78 Q 80 93 85 153" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        <path d="M 50 160 Q 40 210 30 265" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        <path d="M 50 160 Q 60 210 70 265" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    
+    <button class="replay-btn" onclick="replayAnimation()">Replay</button>
+    
+    <script>
+        // Elements
+        const dex = document.getElementById('dex');
+        const leftArm = document.getElementById('leftArm');
+        const rightArm = document.getElementById('rightArm');
+        const leftEye = document.getElementById('leftEye');
+        const rightEye = document.getElementById('rightEye');
+        const mouth = document.getElementById('mouth');
+        
+        // Screen 1
+        const newProjectBtn = document.getElementById('newProjectBtn');
+        
+        // Screen 2
+        const targetCard = document.getElementById('targetCard');
+        
+        // Screen 3
+        const projectInput = document.getElementById('projectInput');
+        const createBtn = document.getElementById('createBtn');
+        
+        // Screen 4
+        const dropZone = document.getElementById('dropZone');
+        const uploadedFile = document.getElementById('uploadedFile');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const loading = document.getElementById('loading');
+        const resultsSection = document.getElementById('resultsSection');
+        const result1 = document.getElementById('result1');
+        const result2 = document.getElementById('result2');
+        const result3 = document.getElementById('result3');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const draggablePdf = document.getElementById('draggablePdf');
+        const coffeeCup = document.getElementById('coffeeCup');
+        
+        // Progress dots
+        const dots = [
+            document.getElementById('dot1'),
+            document.getElementById('dot2'),
+            document.getElementById('dot3'),
+            document.getElementById('dot4')
+        ];
+        
+        // Arm positions
+        const armDownLeft = "M 50 78 Q 20 93 15 153";
+        const armDownRight = "M 50 78 Q 80 93 85 153";
+        const armPointRight = "M 50 78 Q 75 55 95 50";
+        const armPointLeft = "M 50 78 Q 25 55 5 50";
+        const armHoldPdf = "M 50 78 Q 70 60 90 55";
+        const armHoldCup = "M 50 78 Q 65 70 70 60";
+        const armSip = "M 50 78 Q 55 50 50 35";
+        const armTypingUp = "M 50 78 Q 55 70 75 65";
+        const armTypingDown = "M 50 78 Q 60 75 80 75";
+        
+        // Dex dimensions
+        const DEX_WIDTH = 100;
+        const DEX_HEIGHT = 280;
+        
+        function clampDexPosition(x, y) {
+            const maxX = window.innerWidth - DEX_WIDTH - 10;
+            const maxY = window.innerHeight - DEX_HEIGHT - 10;
+            return {
+                x: Math.max(10, Math.min(x, maxX)),
+                y: Math.max(10, Math.min(y, maxY))
+            };
+        }
+        
+        function setDexPosition(x, y) {
+            const clamped = clampDexPosition(x, y);
+            dex.style.left = clamped.x + 'px';
+            dex.style.top = clamped.y + 'px';
+        }
+        
+        function lerp(a, b, t) {
+            return a + (b - a) * t;
+        }
+        
+        function easeInOut(t) {
+            return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+        
+        function interpolatePath(pathA, pathB, t) {
+            const parseQ = (path) => {
+                const match = path.match(/M\s*([\d.-]+)\s+([\d.-]+)\s+Q\s*([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)/);
+                return {
+                    mx: parseFloat(match[1]),
+                    my: parseFloat(match[2]),
+                    cx: parseFloat(match[3]),
+                    cy: parseFloat(match[4]),
+                    ex: parseFloat(match[5]),
+                    ey: parseFloat(match[6])
+                };
+            };
+            const a = parseQ(pathA);
+            const b = parseQ(pathB);
+            return `M ${lerp(a.mx, b.mx, t)} ${lerp(a.my, b.my, t)} Q ${lerp(a.cx, b.cx, t)} ${lerp(a.cy, b.cy, t)} ${lerp(a.ex, b.ex, t)} ${lerp(a.ey, b.ey, t)}`;
+        }
+        
+        function showScreen(num) {
+            document.querySelectorAll('.screen').forEach((s, i) => {
+                s.classList.toggle('active', i === num - 1);
+            });
+            dots.forEach((d, i) => {
+                d.classList.remove('active', 'done');
+                if (i < num - 1) d.classList.add('done');
+                if (i === num - 1) d.classList.add('active');
+            });
+        }
+        
+        let animationId;
+        let startTime;
+        let phase = 's1-start';
+        let charIndex = 0;
+        let lastTypeTime = 0;
+        const textToType = "Advies stikstofonderzoek nieuw";
+        
+        const phases = {
+            // Screen 1
+            's1-start': { duration: 500, next: 's1-move' },
+            's1-move': { duration: 1500, next: 's1-raise' },
+            's1-raise': { duration: 400, next: 's1-press' },
+            's1-press': { duration: 800, next: 's1-transition' },
+            's1-transition': { duration: 500, next: 's2-start' },
+            
+            // Screen 2
+            's2-start': { duration: 300, next: 's2-move' },
+            's2-move': { duration: 1500, next: 's2-raise' },
+            's2-raise': { duration: 400, next: 's2-press' },
+            's2-press': { duration: 800, next: 's2-transition' },
+            's2-transition': { duration: 500, next: 's3-start' },
+            
+            // Screen 3
+            's3-start': { duration: 300, next: 's3-move-input' },
+            's3-move-input': { duration: 1000, next: 's3-typing' },
+            's3-typing': { duration: 3000, next: 's3-move-btn' },
+            's3-move-btn': { duration: 800, next: 's3-raise' },
+            's3-raise': { duration: 400, next: 's3-press' },
+            's3-press': { duration: 800, next: 's3-transition' },
+            's3-transition': { duration: 500, next: 's4-start' },
+            
+            // Screen 4
+            's4-start': { duration: 300, next: 's4-pickup' },
+            's4-pickup': { duration: 600, next: 's4-drag' },
+            's4-drag': { duration: 1500, next: 's4-drop' },
+            's4-drop': { duration: 500, next: 's4-move-analyze' },
+            's4-move-analyze': { duration: 1000, next: 's4-press-analyze' },
+            's4-press-analyze': { duration: 1000, next: 's4-move-center' },
+            's4-move-center': { duration: 800, next: 's4-get-coffee' },
+            's4-get-coffee': { duration: 500, next: 's4-drinking' },
+            's4-drinking': { duration: 5000, next: 's4-results' },
+            's4-results': { duration: 1500, next: 's4-move-download' },
+            's4-move-download': { duration: 1000, next: 's4-press-download' },
+            's4-press-download': { duration: 500, next: 'done' }
+        };
+        
+        function animate(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const phaseInfo = phases[phase];
+            const t = Math.min(elapsed / phaseInfo.duration, 1);
+            const eased = easeInOut(t);
+            
+            // SCREEN 1
+            if (phase === 's1-start') {
+                showScreen(1);
+                setDexPosition(30, window.innerHeight - 300);
+            }
+            else if (phase === 's1-move') {
+                const btnRect = newProjectBtn.getBoundingClientRect();
+                const endX = btnRect.left - 110;
+                const endY = btnRect.top - 80;
+                setDexPosition(lerp(30, endX, eased), lerp(window.innerHeight - 300, endY, eased));
+            }
+            else if (phase === 's1-raise') {
+                rightArm.setAttribute('d', interpolatePath(armDownRight, armPointRight, eased));
+            }
+            else if (phase === 's1-press') {
+                if (t > 0.3) newProjectBtn.classList.add('pressed');
+            }
+            else if (phase === 's1-transition') {
+                newProjectBtn.classList.remove('pressed');
+                rightArm.setAttribute('d', armDownRight);
+            }
+            
+            // SCREEN 2
+            else if (phase === 's2-start') {
+                showScreen(2);
+                setDexPosition(window.innerWidth - 130, 20);
+            }
+            else if (phase === 's2-move') {
+                const cardRect = targetCard.getBoundingClientRect();
+                const endX = cardRect.right + 10;
+                const endY = cardRect.top - 30;
+                setDexPosition(
+                    lerp(window.innerWidth - 130, endX, eased),
+                    lerp(20, endY, eased)
+                );
+            }
+            else if (phase === 's2-raise') {
+                leftArm.setAttribute('d', interpolatePath(armDownLeft, armPointLeft, eased));
+            }
+            else if (phase === 's2-press') {
+                if (t > 0.3) targetCard.classList.add('pressed');
+            }
+            else if (phase === 's2-transition') {
+                targetCard.classList.remove('pressed');
+                leftArm.setAttribute('d', armDownLeft);
+            }
+            
+            // SCREEN 3
+            else if (phase === 's3-start') {
+                showScreen(3);
+                setDexPosition(30, window.innerHeight - 300);
+            }
+            else if (phase === 's3-move-input') {
+                const inputRect = projectInput.getBoundingClientRect();
+                const endX = inputRect.left - 110;
+                const endY = inputRect.top - 80;
+                setDexPosition(lerp(30, endX, eased), lerp(window.innerHeight - 300, endY, eased));
+            }
+            else if (phase === 's3-typing') {
+                projectInput.classList.add('typing');
+                if (timestamp - lastTypeTime > 80 && charIndex < textToType.length) {
+                    charIndex++;
+                    projectInput.value = textToType.substring(0, charIndex);
+                    lastTypeTime = timestamp;
+                    if (charIndex % 2 === 0) {
+                        leftArm.setAttribute('d', armTypingDown);
+                        rightArm.setAttribute('d', armTypingUp);
+                    } else {
+                        leftArm.setAttribute('d', armTypingUp);
+                        rightArm.setAttribute('d', armTypingDown);
+                    }
+                }
+                if (t >= 1) {
+                    projectInput.classList.remove('typing');
+                    leftArm.setAttribute('d', armDownLeft);
+                    rightArm.setAttribute('d', armDownRight);
+                }
+            }
+            else if (phase === 's3-move-btn') {
+                const btnRect = createBtn.getBoundingClientRect();
+                const inputRect = projectInput.getBoundingClientRect();
+                const startX = inputRect.left - 110;
+                const startY = inputRect.top - 80;
+                const endX = btnRect.left - 110;
+                const endY = btnRect.top - 80;
+                setDexPosition(lerp(startX, endX, eased), lerp(startY, endY, eased));
+            }
+            else if (phase === 's3-raise') {
+                rightArm.setAttribute('d', interpolatePath(armDownRight, armPointRight, eased));
+            }
+            else if (phase === 's3-press') {
+                if (t > 0.3) createBtn.classList.add('pressed');
+            }
+            else if (phase === 's3-transition') {
+                createBtn.classList.remove('pressed');
+                rightArm.setAttribute('d', armDownRight);
+            }
+            
+            // SCREEN 4
+            else if (phase === 's4-start') {
+                showScreen(4);
+                const pdfX = window.innerWidth - 180;
+                const pdfY = window.innerHeight - 200;
+                setDexPosition(pdfX - 60, pdfY - 130);
+                draggablePdf.style.left = pdfX + 'px';
+                draggablePdf.style.top = pdfY + 'px';
+                draggablePdf.style.display = 'flex';
+                draggablePdf.style.opacity = 1;
+            }
+            else if (phase === 's4-pickup') {
+                rightArm.setAttribute('d', interpolatePath(armDownRight, armHoldPdf, eased));
+            }
+            else if (phase === 's4-drag') {
+                const dropRect = dropZone.getBoundingClientRect();
+                const pdfX = window.innerWidth - 180;
+                const pdfY = window.innerHeight - 200;
+                const endDexX = dropRect.left + dropRect.width + 20;
+                const endDexY = dropRect.top - 150;
+                
+                setDexPosition(lerp(pdfX - 60, endDexX, eased), lerp(pdfY - 130, endDexY, eased));
+                draggablePdf.style.left = lerp(pdfX, dropRect.left + dropRect.width/2 - 40, eased) + 'px';
+                draggablePdf.style.top = lerp(pdfY, dropRect.top + dropRect.height/2 - 50, eased) + 'px';
+                
+                if (t > 0.5) dropZone.classList.add('active');
+            }
+            else if (phase === 's4-drop') {
+                rightArm.setAttribute('d', interpolatePath(armHoldPdf, armDownRight, eased));
+                draggablePdf.style.opacity = 1 - eased;
+                if (t > 0.3) {
+                    uploadedFile.classList.add('visible');
+                    dropZone.classList.remove('active');
+                }
+                if (t >= 1) {
+                    draggablePdf.style.display = 'none';
+                    analyzeBtn.classList.add('visible');
+                }
+            }
+            else if (phase === 's4-move-analyze') {
+                const dropRect = dropZone.getBoundingClientRect();
+                const btnRect = analyzeBtn.getBoundingClientRect();
+                const startX = dropRect.left + dropRect.width + 20;
+                const startY = dropRect.top - 150;
+                const endX = btnRect.left - 110;
+                const endY = btnRect.top - 50;
+                setDexPosition(lerp(startX, endX, eased), lerp(startY, endY, eased));
+            }
+            else if (phase === 's4-press-analyze') {
+                if (t < 0.4) {
+                    rightArm.setAttribute('d', interpolatePath(armDownRight, armPointRight, t / 0.4));
+                }
+                if (t > 0.4) analyzeBtn.classList.add('pressed');
+                if (t > 0.7) {
+                    analyzeBtn.classList.remove('visible', 'pressed');
+                    loading.classList.add('visible');
+                }
+                if (t >= 1) rightArm.setAttribute('d', armDownRight);
+            }
+            else if (phase === 's4-move-center') {
+                const loadingRect = loading.getBoundingClientRect();
+                const btnRect = analyzeBtn.getBoundingClientRect();
+                const startX = btnRect.left - 110;
+                const startY = btnRect.top - 50;
+                const endX = loadingRect.left - 120;
+                const endY = loadingRect.top - 80;
+                setDexPosition(lerp(startX, endX, eased), lerp(startY, endY, eased));
+            }
+            else if (phase === 's4-get-coffee') {
+                rightArm.setAttribute('d', interpolatePath(armDownRight, armHoldCup, eased));
+                coffeeCup.classList.add('visible');
+                const dexRect = dex.getBoundingClientRect();
+                coffeeCup.style.left = (dexRect.left + 65) + 'px';
+                coffeeCup.style.top = (dexRect.top + 50) + 'px';
+            }
+            else if (phase === 's4-drinking') {
+                const sipCycle = (elapsed % 1500) / 1500;
+                const sipT = Math.sin(sipCycle * Math.PI);
+                rightArm.setAttribute('d', interpolatePath(armHoldCup, armSip, sipT));
+                const dexRect = dex.getBoundingClientRect();
+                coffeeCup.style.left = lerp(dexRect.left + 65, dexRect.left + 40, sipT) + 'px';
+                coffeeCup.style.top = lerp(dexRect.top + 50, dexRect.top + 10, sipT) + 'px';
+                if (sipT > 0.7) {
+                    leftEye.setAttribute('ry', '1');
+                    rightEye.setAttribute('ry', '1');
+                } else {
+                    leftEye.setAttribute('ry', '7');
+                    rightEye.setAttribute('ry', '7');
+                }
+            }
+            else if (phase === 's4-results') {
+                if (t < 0.1) {
+                    loading.classList.remove('visible');
+                    coffeeCup.classList.remove('visible');
+                    rightArm.setAttribute('d', armDownRight);
+                    leftEye.setAttribute('ry', '7');
+                    rightEye.setAttribute('ry', '7');
+                }
+                if (t > 0.2) resultsSection.classList.add('highlight');
+                if (t > 0.3) result1.classList.add('visible');
+                if (t > 0.5) result2.classList.add('visible');
+                if (t > 0.7) result3.classList.add('visible');
+                if (t > 0.8) downloadBtn.classList.add('visible');
+            }
+            else if (phase === 's4-move-download') {
+                const downloadRect = downloadBtn.getBoundingClientRect();
+                const loadingRect = loading.getBoundingClientRect();
+                const startX = loadingRect.left - 120;
+                const startY = loadingRect.top - 80;
+                const endX = downloadRect.left - 110;
+                const endY = downloadRect.top + 20;
+                setDexPosition(lerp(startX, endX, eased), lerp(startY, endY, eased));
+            }
+            else if (phase === 's4-press-download') {
+                rightArm.setAttribute('d', interpolatePath(armDownRight, armPointRight, eased));
+                if (t > 0.5) downloadBtn.classList.add('pressed');
+            }
+            
+            // Transition
+            if (t >= 1 && phaseInfo.next !== 'done') {
+                phase = phaseInfo.next;
+                startTime = timestamp;
+            }
+            
+            if (phase !== 'done' || t < 1) {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+        
+        function resetAll() {
+            leftArm.setAttribute('d', armDownLeft);
+            rightArm.setAttribute('d', armDownRight);
+            leftEye.setAttribute('ry', '7');
+            rightEye.setAttribute('ry', '7');
+            mouth.setAttribute('d', 'M 44 47 Q 50 52 56 47');
+            
+            newProjectBtn.classList.remove('pressed');
+            targetCard.classList.remove('pressed');
+            projectInput.value = '';
+            projectInput.classList.remove('typing');
+            createBtn.classList.remove('pressed');
+            
+            draggablePdf.style.display = 'none';
+            draggablePdf.style.opacity = 1;
+            dropZone.classList.remove('active');
+            uploadedFile.classList.remove('visible');
+            analyzeBtn.classList.remove('visible', 'pressed');
+            loading.classList.remove('visible');
+            resultsSection.classList.remove('highlight');
+            result1.classList.remove('visible');
+            result2.classList.remove('visible');
+            result3.classList.remove('visible');
+            downloadBtn.classList.remove('visible', 'pressed');
+            coffeeCup.classList.remove('visible');
+            
+            charIndex = 0;
+            lastTypeTime = 0;
+        }
+        
+        function startAnimation() {
+            resetAll();
+            phase = 's1-start';
+            startTime = null;
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        function replayAnimation() {
+            if (animationId) cancelAnimationFrame(animationId);
+            startAnimation();
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(startAnimation, 500);
+        });
+    </script>
+</body>
+</html>

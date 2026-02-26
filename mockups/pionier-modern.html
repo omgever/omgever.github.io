@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Omgever - Pionier in Ruimtelijke AI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to existing styles but we will override heavily -->
+    <link rel="stylesheet" href="../src/css/styles.css">
+    <style>
+        /* PIONEER THEME OVERRIDES */
+        :root {
+            --navy: #0f172a; /* Darker, deeper navy */
+            --cyan: #38bdf8; /* Brighter, electric sky blue */
+            --cyan-glow: #0ea5e9;
+            --text-on-dark: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Modern Header */
+        .site-header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* Hero Section - The Pioneer Look */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, #1e293b 100%);
+            color: white;
+            padding: 6rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Abstract tech grid background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-tagline {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: var(--navy);
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
+            background: #fff;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+        }
+        
+        .btn-secondary:hover {
+            border-color: white;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Pricing / Philosophy Section */
+        .philosophy-section {
+            background: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .philosophy-card {
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        .philosophy-card h3 {
+            color: var(--navy);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .big-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1;
+        }
+        
+        .price-text {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Products Grid Overrides */
+        .products {
+            background: #f1f5f9;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--navy);
+        }
+
+        .product-card {
+            background: white;
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .product-icon {
+            background: var(--navy);
+            color: var(--cyan);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <img src="../src/images/logo.png" alt="Omgever logo">
+                </div>
+                <span style="color:white; font-weight:700;">OMGEVER<span style="color:var(--cyan);">.AI</span></span>
+            </a>
+            <nav class="main-nav">
+                <a href="#filosofie" style="color: #94a3b8;">Missie</a>
+                <a href="#producten" style="color: #94a3b8;">Tools</a>
+                <a href="#" style="color: #94a3b8;">Community</a>
+            </nav>
+            <div class="header-actions">
+                <a href="#" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">App Starten</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <span class="hero-tagline">🚀 De revolutie in Omgevingsrecht</span>
+            <h1>Wij maken toetsing<br>toegankelijk voor iedereen.</h1>
+            <p>Geen dure consultants, geen wachttijden. Gewoon steengoede AI die je ruimtelijke onderzoeken toetst. Voor een tarief dat nergens op slaat (zo laag).</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Start direct (kostprijs)</a>
+                <a href="#" class="btn-secondary">Hoe kan dit?</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="philosophy-section" id="filosofie">
+        <div class="header-inner" style="margin-bottom: 3rem; text-align: center;">
+            <h2 style="font-size: 2rem; color: var(--navy); font-weight: 800;">Waarom we dit doen</h2>
+            <p style="max-width: 600px; margin: 1rem auto; color: #64748b;">Wij geloven dat innovatie niet duur hoeft te zijn. Wij willen de markt openbreken en kennis delen.</p>
+        </div>
+
+        <div class="philosophy-grid">
+            <div class="philosophy-card">
+                <h3>⚡ Radicaal Goedkoop</h3>
+                <p>Wij rekenen geen commerciële marges. Je betaalt voor de rekenkracht en een fractie voor beheer. Dat is onze missie: iedereen aan de AI.</p>
+                <div style="margin-top: 1.5rem;">
+                    <span class="big-price">€15</span>
+                    <span class="price-text">/ volledige analyse</span>
+                </div>
+            </div>
+            <div class="philosophy-card">
+                <h3>🔓 Kennis Delen</h3>
+                <p>Onze instructieregels en prompts zijn geen geheim. We bouwen samen aan een slimmere overheid en betere advieswereld. Doe mee en profiteer.</p>
+            </div>
+            <div class="philosophy-card">
+                <h3>🚀 Pionieren</h3>
+                <p>Dit is nog maar het begin. Wij testen de nieuwste modellen en vertalen ze direct naar bruikbare tools voor de RO-praktijk.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- PRODUCTS -->
+    <section class="products" id="producten">
+        <div class="products-inner">
+            <div class="section-header">
+                <h2>Onze Pionier-Tools</h2>
+                <p>Direct beschikbaar. Geen abonnement nodig. Pay-as-you-go.</p>
+            </div>
+            
+            <div class="products-grid">
+                <a href="#" class="product-card">
+                    <div class="product-icon">🤖</div>
+                    <h3>Instructieregel Check</h3>
+                    <p>Voldoet je plan aan het Bkl? Onze AI checkt alle regels in seconden.</p>
+                </a>
+                <a href="#" class="product-card">
+                    <div class="product-icon">🌱</div>
+                    <h3>Stikstof Scanner</h3>
+                    <p>Upload je voortoets en krijg direct feedback op volledigheid en risico's.</p>
+                </a>
+                <a href="#" class="product-card">
+                    <div class="product-icon">🦇</div>
+                    <h3>Soortenonderzoek</h3>
+                    <p>Analyse op Wet natuurbescherming criteria. Snel en grondig.</p>
+                </a>
+                <a href="#" class="product-card">
+                    <div class="product-icon">🔊</div>
+                    <h3>Geluid & Akoestiek</h3>
+                    <p>Check op Wgh en Bkl geluidsnormen. Voorkom verrassingen.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER PLACEHOLDER -->
+    <footer style="background: var(--navy); color: white; padding: 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p style="opacity: 0.7;">© 2026 Omgever. Pionieren met passie.</p>
+        <div style="margin-top: 1rem; opacity: 0.5; font-size: 0.9rem;">
+            <a href="#" style="color: white; margin: 0 10px;">Voorwaarden</a>
+            <a href="#" style="color: white; margin: 0 10px;">Privacy</a>
+        </div>
+    </footer>
+
+</body>
+</html>

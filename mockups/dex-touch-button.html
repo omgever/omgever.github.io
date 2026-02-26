@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dex - Touch Button Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .background {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .webapp-mockup {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            color: #1e3a5f;
+            font-family: system-ui, sans-serif;
+        }
+        
+        .logo-icon { width: 40px; height: 40px; }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            color: #64748b;
+        }
+        
+        .main-content {
+            max-width: 700px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        
+        .main-content h1 {
+            font-family: Georgia, serif;
+            font-size: 48px;
+            font-weight: normal;
+            color: #1e3a5f;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            font-family: system-ui, sans-serif;
+            margin-bottom: 30px;
+        }
+        
+        .new-project {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .new-project.pressed {
+            border-color: #7dd3e8;
+            background: #e8f7fb;
+            transform: scale(0.98);
+        }
+        
+        .plus-icon {
+            width: 40px;
+            height: 40px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 24px;
+        }
+        
+        .new-project-text { text-align: left; }
+        .new-project-text strong { display: block; color: #1e3a5f; font-family: system-ui, sans-serif; }
+        .new-project-text span { color: #94a3b8; font-size: 14px; font-family: system-ui, sans-serif; }
+        
+        .search-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .search-box span { color: #94a3b8; font-family: system-ui, sans-serif; }
+        
+        .section-label {
+            text-align: left;
+            color: #94a3b8;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-family: system-ui, sans-serif;
+        }
+        
+        .project-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        
+        .project-item strong { display: block; color: #1e3a5f; font-family: system-ui, sans-serif; }
+        .project-item span { color: #94a3b8; font-size: 14px; font-family: system-ui, sans-serif; }
+        .arrow { color: #cbd5e1; font-size: 20px; }
+        
+        /* DEX */
+        .stick-figure {
+            position: fixed;
+            width: 100px;
+            height: 280px;
+            z-index: 1000;
+        }
+        
+        /* Replay button */
+        .replay-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: system-ui, sans-serif;
+            font-size: 14px;
+            z-index: 1001;
+        }
+        
+        .replay-btn:hover {
+            background: #2d5a8f;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="webapp-mockup">
+            <div class="header">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="18" fill="none" stroke="#7dd3e8" stroke-width="2"/>
+                        <circle cx="20" cy="20" r="12" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+                        <circle cx="20" cy="20" r="4" fill="#1e3a5f"/>
+                        <line x1="20" y1="2" x2="20" y2="8" stroke="#7dd3e8" stroke-width="2"/>
+                        <line x1="20" y1="32" x2="20" y2="38" stroke="#7dd3e8" stroke-width="2"/>
+                        <line x1="2" y1="20" x2="8" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                        <line x1="32" y1="20" x2="38" y2="20" stroke="#7dd3e8" stroke-width="2"/>
+                    </svg>
+                    omgever
+                </div>
+                <div class="header-icons">
+                    <span>⚙️</span>
+                    <span>✉️</span>
+                    <span>👤</span>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <h1>Welkom</h1>
+                <p class="subtitle">Kies een project om te beginnen</p>
+                
+                <div class="new-project" id="newProjectBtn">
+                    <div class="plus-icon">+</div>
+                    <div class="new-project-text">
+                        <strong>Nieuw project starten</strong>
+                        <span>Kies een projecttype</span>
+                    </div>
+                </div>
+                
+                <div class="search-box">
+                    <span>🔍</span>
+                    <span>Zoek in projecten...</span>
+                </div>
+                
+                <div class="section-label">GISTEREN</div>
+                
+                <div class="project-item">
+                    <div>
+                        <strong>test 7 zienswijzen</strong>
+                        <span>Adviseur zienswijzen beoordelen · Laatst bewerkt: gisteren</span>
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+                
+                <div class="project-item">
+                    <div>
+                        <strong>test 6 zienswijzen</strong>
+                        <span>Adviseur zienswijzen beoordelen · Laatst bewerkt: gisteren</span>
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- DEX -->
+    <svg class="stick-figure" id="dex" viewBox="0 0 100 280">
+        <!-- Hair tuft -->
+        <path d="M 48 5 Q 52 -2 56 5 Q 60 0 60 8" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Head -->
+        <circle cx="50" cy="35" r="25" fill="none" stroke="#1e3a5f" stroke-width="3.5"/>
+        
+        <!-- Open eyes -->
+        <ellipse cx="42" cy="32" rx="3" ry="7" fill="#1e3a5f"/>
+        <ellipse cx="58" cy="32" rx="3" ry="7" fill="#1e3a5f"/>
+        
+        <!-- Rosy cheeks -->
+        <circle cx="32" cy="40" r="4" fill="#f8d7da" opacity="0.6"/>
+        <circle cx="68" cy="40" r="4" fill="#f8d7da" opacity="0.6"/>
+        
+        <!-- Small cute smile -->
+        <path d="M 44 47 Q 50 52 56 47" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Neck -->
+        <line x1="50" y1="60" x2="50" y2="70" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Body -->
+        <line x1="50" y1="70" x2="50" y2="160" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Left arm (static) -->
+        <path d="M 50 78 Q 20 93 15 153" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Right arm (animated) -->
+        <path id="rightArm" d="M 50 78 Q 80 93 85 153" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Left leg -->
+        <path d="M 50 160 Q 40 210 30 265" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+        
+        <!-- Right leg -->
+        <path d="M 50 160 Q 60 210 70 265" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    
+    <button class="replay-btn" onclick="replayAnimation()">Replay</button>
+    
+    <script>
+        const dex = document.getElementById('dex');
+        const rightArm = document.getElementById('rightArm');
+        const newProjectBtn = document.getElementById('newProjectBtn');
+        
+        // Starting position (bottom left)
+        const startX = 30;
+        const startY = window.innerHeight - 300;
+        
+        // End position: left of the button
+        let endX, endY;
+        
+        function calculateEndPosition() {
+            const btnRect = newProjectBtn.getBoundingClientRect();
+            // Dex body stays to the left of the button
+            endX = btnRect.left - 110;
+            endY = btnRect.top - 50;
+        }
+        
+        // Arm positions - all within SVG viewBox bounds (0-100 x, 0-280 y)
+        // Arm starts at shoulder (50, 78)
+        const armDown = "M 50 78 Q 80 93 85 153";      // relaxed, hanging down-right
+        const armUp = "M 50 78 Q 75 55 95 50";         // raised to the right, pointing at button
+        
+        let animationId;
+        let startTime;
+        let phase = 'moving';
+        
+        const moveDuration = 2000;
+        const raiseDuration = 500;
+        const pressDuration = 300;
+        
+        function lerp(a, b, t) {
+            return a + (b - a) * t;
+        }
+        
+        function easeInOut(t) {
+            return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+        
+        function interpolatePath(pathA, pathB, t) {
+            const parseQ = (path) => {
+                const match = path.match(/M\s*([\d.-]+)\s+([\d.-]+)\s+Q\s*([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)/);
+                return {
+                    mx: parseFloat(match[1]),
+                    my: parseFloat(match[2]),
+                    cx: parseFloat(match[3]),
+                    cy: parseFloat(match[4]),
+                    ex: parseFloat(match[5]),
+                    ey: parseFloat(match[6])
+                };
+            };
+            
+            const a = parseQ(pathA);
+            const b = parseQ(pathB);
+            
+            return `M ${lerp(a.mx, b.mx, t)} ${lerp(a.my, b.my, t)} Q ${lerp(a.cx, b.cx, t)} ${lerp(a.cy, b.cy, t)} ${lerp(a.ex, b.ex, t)} ${lerp(a.ey, b.ey, t)}`;
+        }
+        
+        function animate(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            
+            if (phase === 'moving') {
+                const t = Math.min(elapsed / moveDuration, 1);
+                const eased = easeInOut(t);
+                
+                const currentX = lerp(startX, endX, eased);
+                const currentY = lerp(startY, endY, eased);
+                
+                dex.style.left = currentX + 'px';
+                dex.style.top = currentY + 'px';
+                
+                if (t >= 1) {
+                    phase = 'raising';
+                    startTime = timestamp;
+                }
+            }
+            else if (phase === 'raising') {
+                const t = Math.min(elapsed / raiseDuration, 1);
+                const eased = easeInOut(t);
+                
+                rightArm.setAttribute('d', interpolatePath(armDown, armUp, eased));
+                
+                if (t >= 1) {
+                    phase = 'pressing';
+                    startTime = timestamp;
+                    newProjectBtn.classList.add('pressed');
+                }
+            }
+            else if (phase === 'pressing') {
+                const t = Math.min(elapsed / pressDuration, 1);
+                
+                if (t >= 1) {
+                    phase = 'done';
+                    return;
+                }
+            }
+            
+            if (phase !== 'done') {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+        
+        function startAnimation() {
+            calculateEndPosition();
+            
+            phase = 'moving';
+            startTime = null;
+            dex.style.left = startX + 'px';
+            dex.style.top = startY + 'px';
+            rightArm.setAttribute('d', armDown);
+            newProjectBtn.classList.remove('pressed');
+            
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        function replayAnimation() {
+            if (animationId) cancelAnimationFrame(animationId);
+            startAnimation();
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(startAnimation, 500);
+        });
+        
+        window.addEventListener('resize', calculateEndPosition);
+    </script>
+</body>
+</html>

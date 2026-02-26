@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Omgever - Superieure Kwaliteit & Snelheid</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/css/styles.css">
+    <style>
+        :root {
+            --navy: #0b1120; /* Ultra dark navy */
+            --cyan: #06b6d4; /* Cyan 500 */
+            --cyan-light: #22d3ee;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--navy);
+            color: #e2e8f0;
+        }
+
+        /* HEADER */
+        .site-header {
+            background: rgba(11, 17, 32, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 1.5rem 0;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.05em; color: white; }
+        .logo span { color: var(--cyan); }
+
+        /* HERO centered */
+        .hero {
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quality-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, rgba(6, 182, 212, 0.2), rgba(34, 211, 238, 0.1));
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            color: var(--cyan-light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* Feature Pillars */
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .pillar {
+            text-align: left;
+        }
+
+        .pillar h3 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pillar-icon {
+            color: var(--cyan);
+        }
+
+        .pillar p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* PRODUCT GRID - CARDS */
+        .products-section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .grid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 3rem;
+        }
+
+        .grid-header h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin: 0;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: var(--surface-hover);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: white;
+            margin: 0 0 1rem 0;
+        }
+
+        .card p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 1.5rem;
+        }
+
+        .tag {
+            font-size: 0.8rem;
+            color: #64748b;
+            background: rgba(255,255,255,0.03);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        .btn-card {
+            color: var(--cyan-light);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.2s;
+        }
+
+        .btn-card:hover {
+            gap: 0.8rem;
+            color: white;
+        }
+
+        /* Testimonial / Trust */
+        .trust-section {
+            text-align: center;
+            padding: 4rem 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+    </style>
+    <!-- FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="logo">OMGEVER<span>.</span></div>
+            <nav style="display:flex; gap: 2rem;">
+                <a href="#" style="color: #94a3b8; text-decoration: none;">Producten</a>
+                <a href="#" style="color: #94a3b8; text-decoration: none;">Over Ons</a>
+            </nav>
+            <a href="#" style="background: white; color: var(--navy); padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 700; text-decoration: none;">Inloggen</a>
+        </div>
+    </header>
+
+    <div class="hero">
+        <span class="quality-badge">✨ De Nieuwe Standaard</span>
+        <h1>Hoogwaardig.<br>En Ongekend Snel.</h1>
+        <p>Ervaar de kracht van AI-analyse zonder de complexiteit. <br>Topkwaliteit resultaten in een fractie van de tijd.</p>
+        
+        <div style="margin-top: 2rem;">
+            <a href="#tools" style="background: var(--cyan); color: var(--navy); padding: 1rem 2.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; display: inline-block; font-size: 1.1rem; box-shadow: 0 0 30px rgba(6,182,212,0.4);">
+                Bekijk onze tools
+            </a>
+        </div>
+    </div>
+
+    <div class="pillars">
+        <div class="pillar">
+            <h3><i class="fas fa-bolt pillar-icon"></i> Snelheid</h3>
+            <p>Geen wachttijden meer. Krijg volledige analyses binnen seconden terug i.p.v. weken. Ideaal voor snelle toetsing.</p>
+        </div>
+        <div class="pillar">
+            <h3><i class="fas fa-gem pillar-icon"></i> Kwaliteit</h3>
+            <p>Onze modellen zijn getraind op actuele wetgeving en expert-data. Hoogwaardige output waar je op kunt bouwen.</p>
+        </div>
+        <div class="pillar">
+            <h3><i class="fas fa-mouse-pointer pillar-icon"></i> Gebruiksgemak</h3>
+            <p>Geen ingewikkelde software. Een super toegankelijke interface die voor iedereen direct duidelijk is.</p>
+        </div>
+    </div>
+
+    <section class="products-section" id="tools">
+        <div class="grid-header">
+            <h2>Kies je Analyse</h2>
+        </div>
+
+        <div class="product-grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-gavel"></i></div>
+                <h3>Instructieregel Analyse</h3>
+                <p>Volledige toetsing aan het meest actuele Bkl. Detecteert conflicten en inconsistenties in je planregels direct.</p>
+                <div class="card-footer">
+                    <span class="tag">Bkl Toetsing</span>
+                    <a href="#" class="btn-card">Direct Starten <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-wind"></i></div>
+                <h3>Stikstof & Ecologie</h3>
+                <p>Upload je Aerius-berekening of voortoets. Krijg direct feedback op validiteit en volledigheid volgens de laatste jurisprudentie.</p>
+                <div class="card-footer">
+                    <span class="tag">Wnb Scan</span>
+                    <a href="#" class="btn-card">Direct Starten <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-volume-up"></i></div>
+                <h3>Geluidscheck</h3>
+                <p>Akoestisch onderzoek valideren? Onze AI checkt op normoverschrijdingen en ontbrekende parameters in seconden.</p>
+                <div class="card-footer">
+                    <span class="tag">Wgh / Bkl</span>
+                    <a href="#" class="btn-card">Direct Starten <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-search-location"></i></div>
+                <h3>Locatie Scan</h3>
+                <p>Een snelle omgevingsscan van een specifiek perceel. Welke regels gelden hier? Wat zijn de beperkingen?</p>
+                <div class="card-footer">
+                    <span class="tag">Quickscan</span>
+                    <a href="#" class="btn-card">Direct Starten <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="trust-section">
+        Gebruikt door pioniers bij gemeenten en adviesbureaus. <br>
+        <span style="opacity: 0.5; font-size: 0.8rem; margin-top: 10px; display: block;">&copy; 2026 Omgever.</span>
+    </div>
+
+</body>
+</html>
