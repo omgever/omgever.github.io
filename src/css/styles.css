@@ -1018,6 +1018,56 @@ a:hover {
     color: var(--navy);
 }
 
+/* =====================================================
+   TABLES
+   ===================================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+thead {
+    background: var(--navy);
+    color: var(--white);
+}
+
+th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--gray-200);
+    vertical-align: top;
+}
+
+tbody tr:hover {
+    background: var(--gray-50);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+/* =====================================================
+   FAQ RESPONSIVE
+   ===================================================== */
+
 @media (max-width: 768px) {
     .faq-item summary {
         padding: 1rem 1.25rem;
