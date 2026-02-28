@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Mockup A: Voorbeeld - Tabs | Omgever</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/css/styles.css">
+    <style>
+        /* =====================================================
+           VOORBEELD PAGINA - TABS VARIANT
+           ===================================================== */
+        
+        /* Intro block */
+        .example-intro {
+            background: var(--cyan-pale);
+            border-left: 4px solid var(--cyan);
+            padding: 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.25rem;
+        }
+        
+        .example-intro p {
+            margin: 0;
+            color: var(--gray-800);
+        }
+        
+        .example-intro strong {
+            color: var(--navy);
+        }
+
+        /* Download section */
+        .download-section {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 0.625rem 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .download-section h3 {
+            font-size: 0.875rem;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .download-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 0.625rem 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .download-card:hover {
+            border-color: var(--cyan);
+            box-shadow: 0 4px 12px rgba(125, 211, 232, 0.15);
+        }
+        
+        .download-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--cyan-pale);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+        
+        .download-info h4 {
+            margin: 0 0 0.125rem;
+            font-size: 0.8125rem;
+            color: var(--navy);
+        }
+        
+        .download-info p {
+            margin: 0;
+            font-size: 0.6875rem;
+            color: var(--gray-500);
+        }
+        
+        .download-arrow {
+            margin-left: auto;
+            color: var(--cyan);
+            font-size: 1rem;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            margin-bottom: 2rem;
+        }
+        
+        .tabs-nav {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 0;
+        }
+        
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+        }
+        
+        .tab-button:hover {
+            color: var(--navy);
+        }
+        
+        .tab-button.active {
+            color: var(--navy);
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--cyan);
+        }
+        
+        .tab-icon {
+            margin-right: 0.5rem;
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+            padding: 2rem 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Excerpt styling - looks like markdown rendered */
+        .excerpt-container {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .excerpt-header {
+            background: var(--gray-800);
+            color: white;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.875rem;
+        }
+        
+        .excerpt-filename {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9375rem;
+        }
+        
+        .excerpt-badge {
+            background: var(--cyan);
+            color: var(--navy);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6875rem;
+            font-weight: 600;
+        }
+        
+        .excerpt-body {
+            padding: 1.5rem;
+            max-height: 500px;
+            overflow-y: auto;
+            font-size: 0.9375rem;
+            line-height: 1.7;
+        }
+        
+        /* Markdown-style rendering */
+        .excerpt-body h1 {
+            font-size: 1.5rem;
+            color: var(--navy);
+            margin: 0 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+        
+        .excerpt-body h2 {
+            font-size: 1.25rem;
+            color: var(--navy);
+            margin: 1.5rem 0 0.75rem;
+        }
+        
+        .excerpt-body h3 {
+            font-size: 1.125rem;
+            color: var(--navy);
+            margin: 1.25rem 0 0.5rem;
+        }
+        
+        .excerpt-body h4 {
+            font-size: 1rem;
+            color: var(--navy);
+            margin: 1rem 0 0.5rem;
+        }
+        
+        .excerpt-body p {
+            margin-bottom: 1rem;
+            color: var(--gray-800);
+        }
+        
+        .excerpt-body ul, .excerpt-body ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .excerpt-body li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .excerpt-body strong {
+            color: var(--navy);
+        }
+        
+        .excerpt-body blockquote {
+            background: var(--gray-50);
+            border-left: 3px solid var(--cyan);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            color: var(--gray-600);
+        }
+        
+        .excerpt-body code {
+            background: var(--gray-100);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.875em;
+        }
+        
+        /* Fade out at bottom to indicate more content */
+        .excerpt-fade {
+            position: relative;
+        }
+        
+        .excerpt-fade::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, white);
+            pointer-events: none;
+        }
+        
+        .excerpt-more {
+            text-align: center;
+            padding: 1rem;
+            border-top: 1px solid var(--gray-100);
+            background: white;
+        }
+        
+        .excerpt-more a {
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 0.9375rem;
+        }
+
+        /* Checklist table in excerpt */
+        .excerpt-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+        }
+        
+        .excerpt-body th {
+            text-align: left;
+            padding: 0.75rem;
+            background: var(--gray-50);
+            border-bottom: 2px solid var(--gray-200);
+            color: var(--navy);
+            font-weight: 600;
+        }
+        
+        .excerpt-body td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--gray-100);
+            vertical-align: top;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs-nav {
+                flex-wrap: wrap;
+            }
+            
+            .tab-button {
+                flex: 1;
+                text-align: center;
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+            
+            .tab-icon {
+                display: none;
+            }
+            
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Simplified Header for mockup -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../docs/index.html" class="logo">
+                <div class="logo-icon">
+                    <img src="../src/images/logo.png" alt="Omgever logo">
+                </div>
+                <span>Omgever</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../docs/index.html#producten">Producten</a>
+                <a href="../docs/over-ons.html">Over ons</a>
+                <a href="../docs/faq.html">FAQ</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- HERO -->
+    <section class="hero" style="min-height: auto; padding-bottom: 0.5rem;">
+        <div class="hero-inner" style="grid-template-columns: 1fr;">
+            <div class="hero-content" style="text-align: center;">
+                <h1>Voorbeeld <span>analyse</span></h1>
+                <p style="margin-left: auto; margin-right: auto; margin-bottom: 0;">Bekijk wat Omgever oplevert: een volledige juridische analyse van een ladderonderbouwing</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CONTENT -->
+    <section class="content-section" style="padding-top: 1.5rem;">
+        <div class="content-inner">
+            
+            <!-- Intro -->
+            <div class="example-intro">
+                <p><strong>Dit is een voorbeeld van een daadwerkelijke Omgever-analyse.</strong> Het betreft een juridische beoordeling van een ladderonderbouwing voor een kantoorontwikkeling. De locatiegegevens zijn geanonimiseerd.</p>
+            </div>
+            
+            <!-- Download section -->
+            <div class="download-section">
+                <h3>📥 Download de volledige documenten</h3>
+                <div class="download-grid">
+                    <a href="../src/drafts/Onderzoeksverslag - Ladderonderbouwing (voorbeeld).pdf" download class="download-card">
+                        <div class="download-icon">📋</div>
+                        <div class="download-info">
+                            <h4>Onderzoeksverslag</h4>
+                            <p>Volledige juridische analyse (.pdf)</p>
+                        </div>
+                        <span class="download-arrow">↓</span>
+                    </a>
+                    <a href="../src/drafts/Checklist - Ladderonderbouwing (voorbeeld).pdf" download class="download-card">
+                        <div class="download-icon">✓</div>
+                        <div class="download-info">
+                            <h4>Checklist</h4>
+                            <p>Criteria-toetsing (.pdf)</p>
+                        </div>
+                        <span class="download-arrow">↓</span>
+                    </a>
+                    <a href="../src/drafts/Aanbevelingen - Ladderonderbouwing (voorbeeld).pdf" download class="download-card">
+                        <div class="download-icon">💡</div>
+                        <div class="download-info">
+                            <h4>Aanbevelingen</h4>
+                            <p>Samenvatting & verbeterpunten (.pdf)</p>
+                        </div>
+                        <span class="download-arrow">↓</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Uitsnedes header -->
+            <h2 style="font-size: 1.125rem; color: var(--navy); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span style="color: var(--gray-500);">✂️</span> Uitsnedes uit de documenten
+            </h2>
+            <p style="color: var(--gray-500); font-size: 0.9375rem; margin-bottom: 1rem;">Hieronder zie je de eerste paragrafen van elk document. Download de volledige bestanden hierboven.</p>
+            
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <div class="tabs-nav">
+                    <button class="tab-button active" data-tab="verslag">
+                        <span class="tab-icon">📋</span>Onderzoeksverslag
+                    </button>
+                    <button class="tab-button" data-tab="checklist">
+                        <span class="tab-icon">✓</span>Checklist
+                    </button>
+                    <button class="tab-button" data-tab="aanbevelingen">
+                        <span class="tab-icon">💡</span>Aanbevelingen
+                    </button>
+                </div>
+                
+                <!-- Tab: Onderzoeksverslag -->
+                <div class="tab-content active" id="tab-verslag">
+                    <div class="excerpt-container">
+                        <div class="excerpt-header">
+                            <span class="excerpt-filename">
+                                <span>📄</span>
+                                Onderzoeksverslag - Ladderonderbouwing (voorbeeld).md
+                            </span>
+                            <span class="excerpt-badge">UITSNEDE</span>
+                        </div>
+                        <div class="excerpt-body excerpt-fade">
+                            <h1>Onderzoeksverslag - Ladderonderbouwing Stationsplein 45</h1>
+                            
+                            <h2>1. Inleiding</h2>
+                            <p>Dit onderzoeksverslag bevat een uitgebreide en gedetailleerde juridische analyse van de ladderonderbouwing voor de ontwikkeling aan het Stationsplein 45 te Rivierstad, opgesteld door RuimtePlan Advies (8 november 2023). De analyse beoordeelt of de motivering voldoet aan de vereisten van artikel 5.129g van het Besluit kwaliteit leefomgeving (Bkl) en de relevante jurisprudentie met betrekking tot duurzame verstedelijking.</p>
+                            
+                            <h3>1.1 Geanalyseerd document</h3>
+                            <ul>
+                                <li><strong>Titel</strong>: Ladderonderbouwing Stationsplein 45</li>
+                                <li><strong>Opsteller</strong>: RuimtePlan Advies</li>
+                                <li><strong>Datum</strong>: 8 november 2023</li>
+                                <li><strong>Projectnummer</strong>: 24.105</li>
+                                <li><strong>Opdrachtgever</strong>: Ontwikkelgroep BV</li>
+                            </ul>
+                            
+                            <h3>1.2 Projectbeschrijving</h3>
+                            <p>Het project betreft de herontwikkeling van een deelgebied binnen het Centrumkwartier in Rivierstad. Op de locatie Stationsplein 45 wordt de realisatie van een multifunctioneel kantoorpand beoogd met een maximaal planologisch laadvermogen van 31.300 m² bvo. Het beoogde kantoor heeft een oppervlakte van 28.200 m² bvo, waarvan 2.300 m² bvo voor functiemix (horeca, voorzieningen).</p>
+                            
+                            <h2>2. Wettelijk en Jurisprudentieel Kader</h2>
+                            
+                            <h3>2.1 Artikel 5.129g Besluit kwaliteit leefomgeving</h3>
+                            <p>Het centrale toetsingskader voor deze analyse is artikel 5.129g Bkl ("zorgvuldig ruimtegebruik en tegengaan van leegstand"), dat luidt:</p>
+                            
+                            <blockquote>
+                                <strong>Artikel 5.129g Bkl:</strong><br><br>
+                                <strong>Lid 1:</strong> Dit artikel is van toepassing op een stedelijke ontwikkeling die bestaat uit de ontwikkeling of uitbreiding van een bedrijventerrein, een zeehaventerrein, een woningbouwlocatie, kantoren, een detailhandelvoorziening of een andere stedelijke voorziening en die voldoende substantieel is.<br><br>
+                                <strong>Lid 2:</strong> Voor zover een omgevingsplan voorziet in een nieuwe stedelijke ontwikkeling, wordt met het oog op het belang van zorgvuldig ruimtegebruik en het tegengaan van leegstand in het omgevingsplan rekening gehouden met: a. de behoefte aan die stedelijke ontwikkeling; en b. als die stedelijke ontwikkeling is voorzien buiten het stedelijk gebied...
+                            </blockquote>
+                            
+                            <h3>2.3 Relevante jurisprudentie (overzichtsuitspraak ECLI:NL:RVS:2017:1724)</h3>
+                            <p>De overzichtsuitspraak van de Afdeling bestuursrechtspraak van de Raad van State (ECLI:NL:RVS:2017:1724) bevat de belangrijkste uitgangspunten:</p>
+                            
+                            <p><strong>Over substantiële stedelijke ontwikkelingen:</strong></p>
+                            <blockquote>"Wanneer een bestemmingsplan voorziet in een terrein met een ruimtebeslag van meer dan 500 m² of in een gebouw met een bruto-vloeroppervlakte groter dan 500 m², dient deze ontwikkeling in beginsel als een stedelijke ontwikkeling te worden aangemerkt."</blockquote>
+                        </div>
+                        <div class="excerpt-more">
+                            <a href="../src/drafts/Onderzoeksverslag - Ladderonderbouwing (voorbeeld).md" download>Download het volledige document (314 regels) →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab: Checklist -->
+                <div class="tab-content" id="tab-checklist">
+                    <div class="excerpt-container">
+                        <div class="excerpt-header">
+                            <span class="excerpt-filename">
+                                <span>📄</span>
+                                Checklist - Ladderonderbouwing (voorbeeld).md
+                            </span>
+                            <span class="excerpt-badge">UITSNEDE</span>
+                        </div>
+                        <div class="excerpt-body excerpt-fade">
+                            <h1>Checklist - Ladderonderbouwing Stationsplein 45</h1>
+                            
+                            <h2>A. Toepasselijkheid Ladder voor Duurzame Verstedelijking</h2>
+                            
+                            <h3>A.1 Kwalificatie als stedelijke ontwikkeling</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Criterium</th>
+                                        <th>Voldaan</th>
+                                        <th>Toelichting</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Betreft het kantoren, woningbouw, detailhandel of andere stedelijke voorziening?</td>
+                                        <td>✅ Ja</td>
+                                        <td>Het betreft kantoren, wat expliciet is genoemd in artikel 5.129g, eerste lid, Bkl.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Is de ontwikkeling voldoende substantieel?</td>
+                                        <td>✅ Ja</td>
+                                        <td>31.300 m² bvo is ruimschoots boven de 500 m²-grens (ECLI:NL:RVS:2017:1724, r.o. 6.3).</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h3>A.2 Kwalificatie als nieuwe stedelijke ontwikkeling</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Criterium</th>
+                                        <th>Voldaan</th>
+                                        <th>Toelichting</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Is er sprake van nieuw planologisch ruimtebeslag of functiewijziging t.o.v. voorgaand plan?</td>
+                                        <td>✅ Ja</td>
+                                        <td>Uitbreiding van 2.000 m² naar 31.300 m² bvo. Functie (kantoor) blijft gelijk, maar omvang neemt substantieel toe.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Is de vergelijking met het voorgaand planologisch regime gemaakt?</td>
+                                        <td>✅ Ja</td>
+                                        <td>Verwijzing naar vigerende bestemmingsplan stationsgebied.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zijn onbenutte planologische mogelijkheden correct meegewogen?</td>
+                                        <td>✅ Ja</td>
+                                        <td>Huidige 2.000 m² is van het totaal afgetrokken.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h2>B. Beschrijving van de Behoefte</h2>
+                            
+                            <h3>B.1 Verzorgingsgebied</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Criterium</th>
+                                        <th>Voldaan</th>
+                                        <th>Toelichting</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Is het verzorgingsgebied afgebakend?</td>
+                                        <td>✅ Ja</td>
+                                        <td>Regionaal niveau, specifiek locatietype centrummilieu/OV-knooppunt.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Is de afbakening onderbouwd?</td>
+                                        <td>✅ Ja</td>
+                                        <td>Onderbouwing op basis van markttrends, locatietype en concentratiebewegingen.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="excerpt-more">
+                            <a href="../src/drafts/Checklist - Ladderonderbouwing (voorbeeld).md" download>Download de volledige checklist →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab: Aanbevelingen -->
+                <div class="tab-content" id="tab-aanbevelingen">
+                    <div class="excerpt-container">
+                        <div class="excerpt-header">
+                            <span class="excerpt-filename">
+                                <span>📄</span>
+                                Aanbevelingen - Ladderonderbouwing (voorbeeld).md
+                            </span>
+                            <span class="excerpt-badge">UITSNEDE</span>
+                        </div>
+                        <div class="excerpt-body excerpt-fade">
+                            <h1>Samenvatting en Aanbevelingen - Ladderonderbouwing Stationsplein 45</h1>
+                            
+                            <h2>1. Samenvatting van de bevindingen</h2>
+                            
+                            <h3>1.1 Algemene beoordeling</h3>
+                            <p>De ladderonderbouwing voor de ontwikkeling aan het Stationsplein 45 te Rivierstad, opgesteld door RuimtePlan Advies, is een gedegen en uitgebreid document dat de behoefte aan de beoogde kantoorontwikkeling adequaat motiveert. De onderbouwing voldoet in grote lijnen aan de vereisten van artikel 5.129g van het Besluit kwaliteit leefomgeving en de relevante jurisprudentie, met name de overzichtsuitspraak van de Afdeling bestuursrechtspraak van de Raad van State (ECLI:NL:RVS:2017:1724).</p>
+                            
+                            <p>De belangrijkste conclusie uit de analyse is dat de ladderonderbouwing <strong>voldoende is</strong> om als basis te dienen voor de motivering van de behoefte in het kader van het bestemmingsplan (of onder de Omgevingswet: de wijziging van het omgevingsplan). Er zijn enkele verbeterpunten geïdentificeerd die de juridische robuustheid van de onderbouwing verder kunnen versterken.</p>
+                            
+                            <h3>1.3 Geconstateerde aandachtspunten</h3>
+                            <p>Ondanks de over het algemeen positieve beoordeling zijn er enkele aandachtspunten die verdienen om te worden geadresseerd:</p>
+                            
+                            <p><strong>Afhankelijkheid van de vervangingsvraag</strong><br>
+                            De kwantitatieve onderbouwing steunt in belangrijke mate op de vervangingsvraag van minimaal 22.000 m² vvo. Zonder deze vervangingsvraag zou er sprake zijn van een overaanbod. De borging van deze vervangingsvraag is weliswaar solide (eigenaarschap bij eindgebruiker, vastlegging in Regionale Woonafspraken 2019), maar dit zou in de toelichting op het bestemmingsplan nog explicieter kunnen worden uitgelicht.</p>
+                            
+                            <h2>2. Aanbevelingen</h2>
+                            
+                            <h3>2.1 Actualiseer de verwijzing naar het wettelijk kader</h3>
+                            <p><strong>Huidige tekst (pagina 6):</strong></p>
+                            <blockquote>"De Ladder is verankerd in artikel 3.1.6. lid 2 Bro en luidt als volgt: [...]"</blockquote>
+                            
+                            <p><strong>Aanbevolen tekst:</strong></p>
+                            <blockquote>"De ladder voor duurzame verstedelijking is met de inwerkingtreding van de Omgevingswet per 1 januari 2024 verankerd in artikel 5.129g van het Besluit kwaliteit leefomgeving (Bkl). Dit artikel luidt als volgt: [...]"</blockquote>
+                        </div>
+                        <div class="excerpt-more">
+                            <a href="../src/drafts/Aanbevelingen - Ladderonderbouwing (voorbeeld).md" download>Download het volledige document →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    
+    <!-- CTA -->
+    <section class="cta-banner">
+        <div class="cta-banner-inner">
+            <div>
+                <h2>Zelf ervaren?</h2>
+                <p>Probeer Omgever uit met uw eigen documenten.</p>
+            </div>
+            <a href="https://app.omgever.nl" class="btn-white">Start analyse →</a>
+        </div>
+    </section>
+    
+    <!-- Simplified Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p style="text-align: center; color: var(--gray-500);">Mockup A: Tabs-variant | <a href="voorbeeld-accordion.html">Bekijk Mockup B: Accordion-variant</a></p>
+        </div>
+    </footer>
+    
+    <script>
+        // Simple tab switching
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active from all
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active to clicked
+                button.classList.add('active');
+                document.getElementById('tab-' + button.dataset.tab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

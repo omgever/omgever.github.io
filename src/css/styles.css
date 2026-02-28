@@ -549,8 +549,8 @@ a:hover {
 
 .cta-banner {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-    padding: 4rem 2rem;
-    margin: 0 2rem 4rem;
+    padding: 2.5rem 2rem;
+    margin: 0 2rem 3rem;
     border-radius: 24px;
     max-width: 1200px;
     margin-left: auto;
@@ -780,6 +780,25 @@ a:hover {
 
 .content-inner a:hover {
     color: var(--blue-light);
+}
+
+.example-callout {
+    background: var(--cyan-pale);
+    border-left: 4px solid var(--cyan);
+    padding: 1rem 1.25rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1.5rem 0;
+}
+
+.example-callout strong {
+    display: block;
+    color: var(--navy);
+    margin-bottom: 0.25rem;
+}
+
+.example-callout p {
+    margin: 0;
+    color: var(--gray-800);
 }
 
 /* =====================================================
