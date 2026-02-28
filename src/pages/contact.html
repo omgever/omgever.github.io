@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Contact - Omgever</title>
+    <meta name="description" content="Neem contact op met Omgever. Stel je vraag via het contactformulier of stuur een e-mail naar info@omgever.nl.">
+    <link rel="canonical" href="https://omgever.nl/contact.html">
+    {{include:head-common}}
+    <style>
+        .contact-form {
+            max-width: 600px;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-800);
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(125, 211, 232, 0.3);
+        }
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .btn-submit {
+            background: var(--cyan);
+            color: var(--navy);
+            border: none;
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-submit:hover {
+            background: #5bc4d9;
+            transform: translateY(-1px);
+        }
+        .email-alternative {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: var(--cyan-pale);
+            border-radius: 12px;
+        }
+        .email-alternative h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            color: var(--navy);
+        }
+        .email-alternative p {
+            margin: 0;
+        }
+        .email-alternative a {
+            color: var(--blue);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    {{include:header}}
+    
+    <!-- HERO (compact) -->
+    <section class="hero" style="min-height: auto; padding-bottom: 3rem;">
+        <div class="hero-inner" style="grid-template-columns: 1fr;">
+            <div class="hero-content" style="text-align: center;">
+                <h1>Neem <span>contact</span> op</h1>
+                <p style="margin-left: auto; margin-right: auto;">Heb je een vraag of wil je meer weten over Omgever? Laat het ons weten.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CONTENT -->
+    <section class="content-section">
+        <div class="content-inner">
+            <div class="contact-form">
+                <form action="https://formsubmit.co/info@omgever.nl" method="POST">
+                    <!-- Formsubmit configuratie -->
+                    <input type="hidden" name="_subject" value="Contactformulier Omgever">
+                    <input type="hidden" name="_next" value="https://omgever.nl/contact-bedankt.html">
+                    <input type="hidden" name="_captcha" value="true">
+                    <input type="text" name="_honey" style="display:none">
+                    
+                    <div class="form-group">
+                        <label for="naam">Naam</label>
+                        <input type="text" id="naam" name="naam" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mailadres</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="organisatie">Organisatie (optioneel)</label>
+                        <input type="text" id="organisatie" name="organisatie">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bericht">Bericht</label>
+                        <textarea id="bericht" name="bericht" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Verstuur bericht</button>
+                </form>
+                
+                <div class="email-alternative">
+                    <h3>Liever gewoon een mailtje sturen?</h3>
+                    <p>Dat kan ook, stuur je bericht naar <a href="mailto:info@omgever.nl">info@omgever.nl</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    {{include:footer}}
+</body>
+</html>
+</html>
