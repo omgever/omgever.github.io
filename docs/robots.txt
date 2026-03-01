@@ -1,0 +1,6 @@
+# Robots.txt for omgever.nl
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://omgever.nl/sitemap.xml
