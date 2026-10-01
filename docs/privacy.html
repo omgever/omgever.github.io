@@ -72,7 +72,7 @@
             <p>Omgever is verwerkingsverantwoordelijke voor de persoonsgegevens die wij verwerken.</p>
             <ul>
                 <li><strong>Bedrijfsnaam:</strong> Omgever</li>
-                <li><strong>Adres:</strong> Hengelo</li>
+                <li><strong>Adres:</strong> Nijmegen</li>
                 <li><strong>Website:</strong> www.omgever.nl</li>
                 <li><strong>E-mail voor privacyvragen:</strong> <a href="mailto:privacy@omgever.nl">privacy@omgever.nl</a></li>
                 <li><strong>KvK-nummer:</strong> 99713187</li>
@@ -119,12 +119,13 @@
                 </tbody>
             </table>
             
-            <h3>3.2 Geen persoonsgegevens in AI-analyse</h3>
-            <p><strong>Belangrijk:</strong> De documenten die via onze AI worden geanalyseerd (ruimtelijke onderzoeken, milieurapporten, etc.) bevatten géén persoonsgegevens.</p>
+            <h3>3.2 Persoonsgegevens in geüploade documenten</h3>
+            <p>De documenten die via onze AI worden geanalyseerd (ruimtelijke onderzoeken, milieurapporten, etc.) bevatten primair zakelijke en technische informatie. Adres- en perceelgegevens kunnen voorkomen en zijn in combinatie met openbare bronnen indirect herleidbaar tot een eigenaar of bewoner.</p>
             <ul>
-                <li>Gebruikers zijn <strong>verplicht</strong> om persoonsgegevens uit documenten te verwijderen vóór upload.</li>
-                <li>Persoonsgegevens worden <strong>niet</strong> naar AI-servers gestuurd.</li>
-                <li>Zie onze <a href="voorwaarden.html">Algemene Voorwaarden</a> voor meer informatie over dit verbod.</li>
+                <li>Gebruikers worden aangespoord directe persoonsgegevens (NAW, BSN, e-mail, telefoonnummer) uit documenten te verwijderen vóór upload.</li>
+                <li>Indirecte adres-/locatiegegevens kunnen voor de analyse noodzakelijk zijn en hoeven niet te worden verwijderd.</li>
+                <li>Voor klanten die deze indirect herleidbare gegevens als persoonsgegevens behandelen (bijv. overheidsorganisaties), biedt Omgever een verwerkersovereenkomst aan. Voor zienswijzen-analyse is dat het standaardregime.</li>
+                <li>Zie onze <a href="voorwaarden.html">Algemene Voorwaarden</a> voor het regime rond directe persoonsgegevens en <a href="gegevensbeveiliging.html">Gegevensbeveiliging</a> voor de detailbeschrijving per productlijn.</li>
             </ul>
             
             <h2>4. Doeleinden van de verwerking</h2>
@@ -150,9 +151,9 @@
             <p>Dit is belangrijk:</p>
             <ul>
                 <li>Wij gebruiken geavanceerde AI-modellen om zakelijke documenten te lezen en te analyseren.</li>
-                <li><strong>Uw persoonsgegevens (accountgegevens etc.) worden NIET naar AI-systemen gestuurd.</strong></li>
+                <li><strong>Uw accountgegevens worden NIET naar AI-systemen gestuurd.</strong></li>
                 <li><strong>Geüploade documenten worden NIET gebruikt om AI-modellen te trainen.</strong></li>
-                <li>De AI-analyse betreft uitsluitend zakelijke/technische documenten zonder persoonsgegevens.</li>
+                <li>Alle AI-verwerking vindt plaats binnen de EU (Mistral in Parijs voor PDF-conversie, Anthropic Claude via AWS Bedrock in Frankfurt voor analyse). Geen doorgifte naar de Verenigde Staten.</li>
             </ul>
             
             <h2>7. Ontvangers en doorgifte</h2>
@@ -178,18 +179,18 @@
                     <tr>
                         <td><strong>Mistral AI</strong></td>
                         <td>PDF-conversie</td>
-                        <td>Nee</td>
-                        <td>EU</td>
+                        <td>Mogelijk indirect herleidbaar</td>
+                        <td>EU (Frankrijk)</td>
                     </tr>
                     <tr>
                         <td><strong>Amazon Web Services (Bedrock)</strong></td>
                         <td>AI-documentanalyse (Anthropic Claude)</td>
-                        <td>Nee</td>
+                        <td>Mogelijk indirect herleidbaar</td>
                         <td>EU (Frankfurt)</td>
                     </tr>
                 </tbody>
             </table>
-            <p><strong>Toelichting AI-analyse:</strong> De AI-analyse vindt plaats via Anthropic Claude op AWS Bedrock in de EU-regio Frankfurt. AWS is hierbij de verwerker; Anthropic (de leverancier van het Claude-model) ontvangt zelf geen data. AWS Bedrock ontvangt uitsluitend zakelijke documenten zonder persoonsgegevens. Er vindt geen doorgifte van gegevens buiten de EU plaats.</p>
+            <p><strong>Toelichting AI-analyse:</strong> De AI-analyse vindt plaats via Anthropic Claude op AWS Bedrock in de EU-regio Frankfurt. AWS is hierbij de verwerker; Anthropic (de leverancier van het Claude-model) ontvangt zelf geen data. Geüploade documenten kunnen adres- en locatiegegevens bevatten die indirect herleidbaar zijn tot een persoon. Er vindt geen doorgifte van gegevens buiten de EU plaats.</p>
             
             <h3>7.2 Geen doorgifte van persoonsgegevens buiten EU/EER</h3>
             <p>Wij sturen <strong>geen persoonsgegevens</strong> naar landen buiten de Europese Economische Ruimte. Persoonsgegevens (accountgegevens, klantgegevens) blijven uitsluitend binnen de EU (Microsoft Azure).</p>

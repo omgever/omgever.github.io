@@ -73,8 +73,8 @@
                 <ul style="margin-bottom: 0;">
                     <li><strong>Volledig EU-verwerking:</strong> Alle AI-analyse via AWS Bedrock binnen de EU</li>
                     <li><strong>Twee productlijnen</strong> met verschillende privacyregimes</li>
-                    <li><strong>Zienswijzen:</strong> alleen geanonimiseerd, verwerkersovereenkomst beschikbaar</li>
-                    <li><strong>Standaard producten:</strong> geen persoonsgegevens in AI-keten</li>
+                    <li><strong>Zienswijzen:</strong> alleen geanonimiseerd, verwerkersovereenkomst standaard aangeboden</li>
+                    <li><strong>Onderzoeken:</strong> beperkt indirect herleidbare adres-/locatiegegevens; verwerkersovereenkomst op verzoek</li>
                     <li><strong>Gecertificeerde leveranciers:</strong> ISO 27001, SOC 2 Type II, C5</li>
                     <li><strong>Geen doorgifte</strong> naar de Verenigde Staten</li>
                 </ul>
@@ -95,12 +95,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Standaard</strong> (ruimtelijke onderzoeken)</td>
-                            <td>Nee</td>
+                            <td><strong>Juridische beoordeling onderzoeken</strong></td>
+                            <td>Beperkt indirect herleidbaar**</td>
                             <td>Mistral (EU)</td>
                             <td>Claude via AWS Bedrock (EU)</td>
-                            <td>Eigen dienst</td>
-                            <td>Niet nodig</td>
+                            <td>Dienstverlener; verwerker bij VWO-keuze</td>
+                            <td>Optioneel — op verzoek klant</td>
                         </tr>
                         <tr>
                             <td><strong>Zienswijzen</strong></td>
@@ -108,12 +108,13 @@
                             <td>Mistral (EU)</td>
                             <td>Claude via AWS Bedrock (EU)</td>
                             <td>Verwerker</td>
-                            <td><strong>Verplicht</strong></td>
+                            <td>Standaard aangeboden</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <p><em>*Zienswijzen worden geanonimiseerd aangeleverd, maar kunnen door inhoud (bijv. verwijzing naar eigen woning) indirect herleidbaar zijn.</em></p>
+            <p><em>*Zienswijzen worden geanonimiseerd aangeleverd, maar kunnen door inhoud (bijv. verwijzing naar eigen woning) indirect herleidbaar zijn.<br>
+            **Ruimtelijke onderzoeken bevatten zakelijke/technische informatie; adres- en perceelgegevens kunnen in combinatie met openbare bronnen indirect herleidbaar zijn tot een eigenaar of bewoner.</em></p>
             
             <div style="background: var(--cyan-pale); padding: 1rem 1.5rem; border-radius: 12px; margin: 2rem 0; display: inline-block;">
                 <p style="margin: 0;"><strong>Omgever is Microsoft Verified Partner</strong> (MpnId 7085493)</p>
@@ -148,7 +149,7 @@
             <h2>Wat doet Omgever?</h2>
             <p>Omgever helpt bij het beoordelen van de volledigheid en kwaliteit van ruimtelijke onderzoeken en zienswijzen.</p>
             
-            <h3>Standaard producten (ruimtelijke onderzoeken)</h3>
+            <h3>Juridische beoordeling van ruimtelijke onderzoeken</h3>
             <p>De tool:</p>
             <ol>
                 <li>Ontvangt een PDF-document (het onderzoek)</li>
@@ -156,8 +157,10 @@
                 <li>Analyseert het document op volledigheid, juridische houdbaarheid en kwaliteit</li>
                 <li>Geeft een overzichtelijk beoordelingsrapport terug</li>
             </ol>
-            <p><strong>Persoonsgegevens:</strong> Nee – ruimtelijke onderzoeken bevatten geen persoonsgegevens.</p>
-            
+            <p><strong>Persoonsgegevens:</strong> Ruimtelijke onderzoeken bevatten primair zakelijke/technische informatie. Adres- en perceelgegevens kunnen voorkomen en zijn in combinatie met openbare bronnen indirect herleidbaar tot een eigenaar of bewoner. Gebruikers worden aangespoord directe persoonsgegevens (NAW, BSN, contactgegevens) vóór upload te verwijderen.</p>
+            <p><strong>Rol Omgever:</strong> Standaard dienstverlener; verwerker (Art. 28 AVG) indien klant kiest voor het verwerker-regime onder een verwerkersovereenkomst.</p>
+            <p><strong>Verwerkersovereenkomst:</strong> Optioneel — Omgever stelt dit niet als voorwaarde, maar biedt een VWO aan voor klanten die de aanwezige adres-/locatiegegevens als indirect herleidbare persoonsgegevens behandelen.</p>
+
             <h3>Zienswijzen-analyse</h3>
             <p>Voor overheidsklanten biedt Omgever ook de mogelijkheid om zienswijzen te analyseren:</p>
             <ol>
@@ -168,7 +171,7 @@
             </ol>
             <p><strong>Persoonsgegevens:</strong> Zienswijzen worden geanonimiseerd aangeleverd. Door de inhoud kan een zienswijze indirect herleidbaar zijn tot een persoon. Dit geldt als persoonsgegeven in de zin van de AVG.</p>
             <p><strong>Rol Omgever:</strong> Verwerker (Art. 28 AVG)</p>
-            <p><strong>Verwerkersovereenkomst:</strong> Verplicht</p>
+            <p><strong>Verwerkersovereenkomst:</strong> Standaard aangeboden — Omgever beschikt over een format en sluit aan bij het format van de klant indien gewenst.</p>
             
             <h2>Hoe werkt de dataverwerking?</h2>
             
@@ -178,14 +181,14 @@
                     <thead>
                         <tr>
                             <th>Aspect</th>
-                            <th>Standaard (onderzoeken)</th>
+                            <th>Juridische beoordeling onderzoeken</th>
                             <th>Zienswijzen</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong>Persoonsgegevens</strong></td>
-                            <td>Nee</td>
+                            <td>Beperkt indirect herleidbaar**</td>
                             <td>Indirect herleidbaar*</td>
                         </tr>
                         <tr>
@@ -205,18 +208,19 @@
                         </tr>
                         <tr>
                             <td><strong>Rol Omgever</strong></td>
-                            <td>Eigen dienst</td>
+                            <td>Dienstverlener; verwerker bij VWO-keuze</td>
                             <td>Verwerker</td>
                         </tr>
                         <tr>
                             <td><strong>Verwerkersovereenkomst</strong></td>
-                            <td>Niet nodig</td>
-                            <td>Verplicht</td>
+                            <td>Optioneel — op verzoek klant</td>
+                            <td>Standaard aangeboden</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <p><em>*Geanonimiseerd aangeleverd, maar door inhoud mogelijk herleidbaar tot personen.</em></p>
+            <p><em>*Geanonimiseerd aangeleverd, maar door inhoud mogelijk herleidbaar tot personen.<br>
+            **Adres-/perceelgegevens in onderzoeken zijn in combinatie met openbare bronnen herleidbaar tot eigenaar of bewoner.</em></p>
             
             <div style="background: var(--cyan-pale); padding: 1.5rem; border-radius: 12px; margin: 2rem 0;">
                 <p style="margin: 0;"><strong>✅ Volledig EU:</strong> Alle AI-verwerking vindt plaats binnen de Europese Unie. Er is geen doorgifte naar de Verenigde Staten.</p>
@@ -225,7 +229,7 @@
             <h2>Onze AI-leveranciers en AVG-Compliance</h2>
             
             <h3>Anthropic Claude via AWS Bedrock (EU)</h3>
-            <p><strong>Alle AI-analyses</strong> (zowel standaard producten als zienswijzen) vinden plaats via Anthropic Claude op AWS Bedrock binnen de Europese Unie.</p>
+            <p><strong>Alle AI-analyses</strong> (zowel juridische beoordeling van onderzoeken als zienswijzen-analyse) vinden plaats via Anthropic Claude op AWS Bedrock binnen de Europese Unie.</p>
             <ul>
                 <li><strong>AVG/GDPR:</strong> AWS Bedrock voldoet als verwerker aan de AVG. Data Processing Addendum (DPA) beschikbaar.</li>
                 <li><strong>Data-residentie:</strong> Frankfurt (EU-Central-1). Data verlaat de EU niet.</li>
@@ -279,7 +283,7 @@
                         </tr>
                         <tr>
                             <td>Dataclassificatie</td>
-                            <td>Standaard: zakelijk. Zienswijzen: indirect herleidbaar (EU-only)</td>
+                            <td>Onderzoeken: zakelijk/technisch met adres-/locatiegegevens (beperkt indirect herleidbaar). Zienswijzen: indirect herleidbaar (EU-only).</td>
                             <td>✅</td>
                         </tr>
                         <tr>
@@ -302,15 +306,15 @@
             <p><strong>Ja.</strong></p>
             <ul>
                 <li><strong>Alle producten:</strong> Volledige EU-verwerking via Anthropic Claude op AWS Bedrock.</li>
-                <li><strong>Standaard producten:</strong> Geen persoonsgegevens in de keten.</li>
-                <li><strong>Zienswijzen:</strong> Verwerkersovereenkomst beschikbaar.</li>
+                <li><strong>Onderzoeken:</strong> Beperkt indirect herleidbare adres-/locatiegegevens; verwerkersovereenkomst beschikbaar op verzoek.</li>
+                <li><strong>Zienswijzen:</strong> Verwerkersovereenkomst standaard aangeboden.</li>
                 <li><strong>Gecertificeerde partners:</strong> Alle leveranciers zijn ISO 27001 en SOC 2 gecertificeerd.</li>
             </ul>
-            
+
             <h3>Hoe zit het met de AVG?</h3>
-            <p><strong>Standaard producten:</strong> Geen persoonsgegevens in de documenten. AVG niet van toepassing op documentinhoud. Verwerking volledig binnen EU.</p>
-            <p><strong>Zienswijzen:</strong> Omgever is verwerker (Art. 28 AVG). Verwerkersovereenkomst verplicht. Volledige EU-verwerking.</p>
-            
+            <p><strong>Juridische beoordeling onderzoeken:</strong> Documenten kunnen adres-/locatiegegevens bevatten die indirect herleidbaar zijn. Omgever is standaard dienstverlener; klanten die deze gegevens als persoonsgegevens behandelen kunnen kiezen voor het verwerker-regime onder een VWO. Verwerking volledig binnen EU.</p>
+            <p><strong>Zienswijzen:</strong> Omgever is verwerker (Art. 28 AVG). Verwerkersovereenkomst standaard aangeboden. Volledige EU-verwerking.</p>
+
             <h3>Hebben wij een verwerkersovereenkomst nodig?</h3>
             <div style="overflow-x: auto;">
                 <table>
@@ -322,12 +326,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Standaard (onderzoeken)</td>
-                            <td>Nee – geen persoonsgegevens in documenten</td>
+                            <td>Onderzoeken</td>
+                            <td>Optioneel — Omgever stelt dit niet als voorwaarde, maar biedt een VWO aan op verzoek (bijv. wanneer adres-/locatiegegevens als indirect herleidbare persoonsgegevens worden behandeld)</td>
                         </tr>
                         <tr>
                             <td>Zienswijzen</td>
-                            <td><strong>Ja</strong> – Omgever is verwerker, verwerkersovereenkomst beschikbaar</td>
+                            <td><strong>Standaard aangeboden</strong> — Omgever is verwerker; format beschikbaar of aansluiten bij format van de klant</td>
                         </tr>
                     </tbody>
                 </table>
@@ -382,7 +386,7 @@
             <h2>Bijlagen</h2>
             <p>Beschikbaar op verzoek:</p>
             <ul>
-                <li>Verwerkersovereenkomst (voor zienswijzen-product)</li>
+                <li>Verwerkersovereenkomst (standaard aangeboden voor zienswijzen; op verzoek voor onderzoeken)</li>
                 <li>BIO Self-Assessment</li>
                 <li>DPA's van leveranciers</li>
                 <li>SOC 2 rapporten leveranciers</li>
